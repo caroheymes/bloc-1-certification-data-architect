@@ -11,8 +11,7 @@ d'implémentation opérationnel des données appliqués au cas d'usage de **Spot
 ![Target](https://img.shields.io/badge/Target-Spotify-1DB954?style=for-the-badge&logo=spotify&logoColor=white)
 ![Framework](https://img.shields.io/badge/Framework-DAMA_DMBOK2-0052CC?style=for-the-badge)
 ![Security](https://img.shields.io/badge/Security-ISO%2FIEC_27001%3A2022-E11D48?style=for-the-badge&logo=roots)
-![Compliance](https://img.shields.io/badge/Compliance-GDPR%20%2F%20RGPD-FF5722?style=for-the-
-badge&logo=gdpr&logoColor=white)
+![Compliance](https://img.shields.io/badge/Compliance-GDPR%20%2F%20RGPD-FF5722?style=for-the-badge&logo=gdpr&logoColor=white)
 ![Accessibility](https://img.shields.io/badge/Accessibility-RGAA%20%2F%20WCAG%202.2-8B5CF6?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Completed-success?style=for-the-badge)
 
