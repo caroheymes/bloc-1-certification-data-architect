@@ -33,7 +33,7 @@ publicitaire et gestion des consentements).
 
 Le dépôt est structuré comme suit :
 
-### 📊 [Livrable 1] Évaluation de la Maturité des Données (Maturity Assessment)
+### [Livrable 1] Évaluation de la Maturité des Données (Maturity Assessment)
 * Évaluation sémantique et clinique détaillée des 9 dimensions clés de la gouvernance basées sur le référentiel
 **DAMA**.
 * Analyse de l'état actuel (*As-Is*) et définition de la cible stratégique (*To-Be*).
