@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livrable 2 : Charte globale de politique de gouvernance des données - Spotify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --spotify-green: #1DB954;
+            --spotify-green-hover: #1ed760;
+            --spotify-black: #191414;
+            --spotify-dark: #121212;
+            --spotify-grey: #242424;
+            --text-primary-dark: #FFFFFF;
+            --text-secondary-dark: #B3B3B3;
+            --text-primary-light: #1F2937;
+            --text-secondary-light: #4B5563;
+            
+            /* CSS variables that can be modified dynamically */
+            --page-bg: #FFFFFF;
+            --page-text: #1F2937;
+            --page-text-strong: #111827;
+            --page-border: #E5E7EB;
+            --card-bg: #FAFBFD;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --header-gradient: linear-gradient(135deg, #191414 0%, #154523 50%, #1DB954 100%);
+            
+            /* Mermaid Colors in Light Mode */
+            --mermaid-coe-bg: #E0E7FF;
+            --mermaid-coe-stroke: #4F46E5;
+            --mermaid-coe-text: #312E81;
+            --mermaid-dept-bg: #F1F5F9;
+            --mermaid-dept-stroke: #475569;
+            --mermaid-dept-text: #1E293B;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--spotify-dark);
+            color: var(--text-primary-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.35;
+            font-size: 8.5pt;
+        }
+
+        /* Screen Header Control Bar (Hidden on print) */
+        .screen-header {
+            background: linear-gradient(90deg, var(--spotify-black) 0%, #282828 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .screen-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12pt;
+            margin: 0;
+            color: #FFFFFF;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .screen-header h1 span {
+            color: var(--spotify-green);
+        }
+
+        .controls-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: var(--spotify-green);
+            color: #000000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 500px;
+            font-size: 8pt;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(29, 185, 84, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--spotify-green-hover);
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 6px 15px rgba(29, 185, 84, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0) scale(1);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #FFFFFF;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: #FFFFFF;
+            box-shadow: none;
+        }
+
+        /* Screen instructions bar */
+        .instructions-panel {
+            max-width: 800px;
+            margin: 25px auto 5px auto;
+            background: rgba(30, 41, 59, 0.65);
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 8.5pt;
+            color: #E2E8F0;
+            backdrop-filter: blur(8px);
+        }
+
+        .instructions-panel h3 {
+            margin: 0 0 6px 0;
+            color: var(--spotify-green);
+            font-family: 'Outfit', sans-serif;
+            font-size: 9.5pt;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .instructions-panel ol {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .instructions-panel li {
+            margin-bottom: 4px;
+        }
+
+        /* Document Wrapper containing Pages */
+        .document-wrapper {
+            max-width: 210mm;
+            margin: 0 auto 50px auto;
+            padding: 10px 0;
+        }
+
+        /* Pure A4 Portrait Page layout on Screen */
+        .page-container {
+            width: 210mm;
+            height: 297mm;
+            background-color: var(--page-bg);
+            color: var(--page-text);
+            padding: 15mm 20mm;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border-radius: 4px;
+            position: relative;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .page-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* Page header and footer templates */
+        .page-footer {
+            border-top: 1.5px solid var(--page-border);
+            padding-top: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 7.2pt;
+            color: var(--text-secondary-light);
+            font-weight: 500;
+            margin-top: auto;
+        }
+
+        .page-footer strong {
+            color: var(--spotify-green);
+            font-weight: 700;
+        }
+
+        /* Typography styles inside page */
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 11pt;
+            color: var(--page-text-strong);
+            border-bottom: 2px solid var(--spotify-green);
+            padding-bottom: 2px;
+            margin-top: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 800;
+        }
+
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 9pt;
+            color: var(--spotify-green);
+            margin-top: 8px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 6px;
+            text-align: justify;
+            color: var(--page-text);
+        }
+
+        ul, ol {
+            margin-top: 0;
+            margin-bottom: 8px;
+            padding-left: 18px;
+        }
+
+        li {
+            margin-bottom: 3px;
+            color: var(--page-text);
+        }
+
+        /* Page 1 - Elegant Header Banner */
+        .header-banner {
+            background: var(--header-gradient);
+            color: #FFFFFF;
+            padding: 20px 25px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header-banner h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13pt;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin: 0 0 5px 0;
+            line-height: 1.25;
+            text-transform: uppercase;
+            letter-spacing: -0.2px;
+        }
+
+        .header-banner .subtitle {
+            font-size: 8.5pt;
+            color: #CBD5E1;
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        .header-banner .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 8px;
+            font-size: 7.2pt;
+            color: #94A3B8;
+        }
+
+        .header-banner .meta-item strong {
+            color: #FFFFFF;
+        }
+
+        /* Table of Contents List */
+        .toc-list {
+            list-style: none !important;
+            padding-left: 0 !important;
+            margin-bottom: 15px !important;
+        }
+
+        .toc-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px dashed var(--page-border);
+            padding: 4px 0;
+            font-size: 7.8pt;
+        }
+
+        .toc-list li span.page-num {
+            font-weight: 700;
+            color: var(--spotify-green);
+            padding-left: 10px;
+        }
+
+        /* Grid Framework for 2-column or 3-column elements */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .grid-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* Interactive and Responsive Card Styling */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--page-border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--spotify-green);
+            transform: translateY(-1px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+            border-bottom: 1px solid var(--page-border);
+            padding-bottom: 4px;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 8pt;
+            font-weight: 700;
+            color: var(--page-text-strong);
+            margin: 0;
+        }
+
+        .badge-role {
+            font-size: 5.5pt;
+            font-weight: 700;
+            padding: 1px 4px;
+            border-radius: 100px;
+            text-transform: uppercase;
+        }
+
+        .badge-coe {
+            background-color: #312E81;
+            color: #FFFFFF;
+        }
+
+        .badge-biz {
+            background-color: var(--spotify-green);
+            color: #000000;
+        }
+
+        .card p {
+            font-size: 7.2pt;
+            margin-bottom: 4px;
+            line-height: 1.25;
+        }
+
+        .card ul {
+            margin: 0 !important;
+            padding-left: 12px !important;
+        }
+
+        .card li {
+            font-size: 7pt;
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        /* Highlighted Callout block */
+        .callout-box {
+            background-color: #F0FDF4;
+            border-left: 4px solid var(--spotify-green);
+            border-radius: 0 6px 6px 0;
+            padding: 8px 12px;
+            margin: 8px 0;
+        }
+
+        .callout-box p {
+            margin: 0 !important;
+            font-size: 7.6pt;
+            font-weight: 600;
+            color: #166534 !important;
+        }
+
+        /* Visual Timeline steps for violations */
+        .steps-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            gap: 6px;
+        }
+
+        .step-item {
+            flex: 1;
+            background-color: var(--card-bg);
+            border: 1px solid var(--page-border);
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .step-number {
+            width: 18px;
+            height: 20px;
+            background-color: var(--spotify-green);
+            color: #000000;
+            font-family: 'Outfit', sans-serif;
+            font-size: 7.5pt;
+            font-weight: 800;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 4px auto;
+        }
+
+        .step-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 7.2pt;
+            font-weight: 700;
+            color: var(--page-text-strong);
+            margin-bottom: 2px;
+        }
+
+        .step-text {
+            font-size: 6.8pt;
+            color: var(--text-secondary-light);
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        /* Mermaid graphics wrapper */
+        .mermaid {
+            background-color: #FAFBFD;
+            border: 1px solid var(--page-border);
+            border-radius: 6px;
+            padding: 8px;
+            margin: 8px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-height: 230px; /* Increased to allow diagrams to scale up nicely and remain highly legible */
+            overflow: hidden;
+            width: 100%;
+        }
+
+        /* Force Mermaid element styles for premium look and dark/light support */
+        .mermaid svg {
+            font-family: 'Inter', sans-serif !important;
+            background-color: transparent !important;
+            max-height: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+        }
+        
+        /* Default Mermaid Node Styling */
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node polygon,
+        .mermaid .node path {
+            fill: var(--card-bg) !important;
+            stroke: var(--page-border) !important;
+            stroke-width: 1.5px !important;
+            rx: 6px !important;
+            ry: 6px !important;
+        }
+        .mermaid .node .label,
+        .mermaid .node text {
+            color: var(--page-text-strong) !important;
+            fill: var(--page-text-strong) !important;
+            font-weight: 600 !important;
+            font-size: 9pt !important; /* Increased from 7.5pt for maximum readability */
+        }
+
+        /* Prevent subgraphs from rendering as black blocks */
+        .mermaid .cluster rect {
+            fill: var(--card-bg) !important;
+            stroke: var(--page-border) !important;
+            stroke-width: 1.5px !important;
+            rx: 8px !important;
+            ry: 8px !important;
+        }
+        .mermaid .cluster-label, 
+        .mermaid .cluster-label span,
+        .mermaid .cluster text {
+            fill: var(--page-text-strong) !important;
+            color: var(--page-text-strong) !important;
+            font-weight: 800 !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 10pt !important; /* Increased from 8pt for better visibility of headers */
+        }
+
+        /* CoE Centralized Nodes (Blue/Indigo theme) using CSS variables */
+        .mermaid .nodeCoe rect,
+        .mermaid .nodeCoe circle,
+        .mermaid .nodeCoe polygon {
+            fill: var(--mermaid-coe-bg) !important;
+            stroke: var(--mermaid-coe-stroke) !important;
+            stroke-width: 1.5px !important;
+        }
+        .mermaid .nodeCoe .label,
+        .mermaid .nodeCoe text {
+            fill: var(--mermaid-coe-text) !important;
+            color: var(--mermaid-coe-text) !important;
+            font-weight: 700 !important;
+        }
+
+        /* Business Embedded Nodes (Green/Grey theme) using CSS variables */
+        .mermaid .nodeDept rect,
+        .mermaid .nodeDept circle,
+        .mermaid .nodeDept polygon {
+            fill: var(--mermaid-dept-bg) !important;
+            stroke: var(--mermaid-dept-stroke) !important;
+            stroke-width: 1.5px !important;
+        }
+        .mermaid .nodeDept .label,
+        .mermaid .nodeDept text {
+            fill: var(--mermaid-dept-text) !important;
+            color: var(--mermaid-dept-text) !important;
+            font-weight: 700 !important;
+        }
+
+        /* Edge and Connection Arrow Styling */
+        .mermaid .edgePath .path {
+            stroke: var(--spotify-green) !important;
+            stroke-width: 1.5px !important;
+        }
+        .mermaid .edgeLabel rect {
+            fill: var(--page-bg) !important;
+            rx: 3px !important;
+            ry: 3px !important;
+        }
+        .mermaid .edgeLabel span,
+        .mermaid .edgeLabel text {
+            color: var(--page-text) !important;
+            fill: var(--page-text) !important;
+            font-size: 7.5pt !important; /* Increased from 6.5pt */
+            font-weight: 600 !important;
+        }
+        .mermaid marker path {
+            fill: var(--spotify-green) !important;
+            stroke: var(--spotify-green) !important;
+        }
+
+        /* Spotify Green custom class for Section 2 principles diagram */
+        .mermaid .pr rect,
+        .mermaid .pr path {
+            fill: var(--spotify-green) !important;
+            stroke: var(--spotify-green-hover) !important;
+            stroke-width: 1px !important;
+        }
+        .mermaid .pr .label,
+        .mermaid .pr text {
+            color: #000000 !important;
+            fill: #000000 !important;
+            font-weight: 700 !important;
+        }
+
+        /* Micro-animations and transitions */
+        .toc-list li:hover {
+            border-bottom-color: var(--spotify-green);
+            transform: translateX(2px);
+            transition: all 0.2s ease;
+        }
+
+        /* Print Media Stylesheet */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 10mm 15mm 10mm 15mm;
+            }
+            
+            body {
+                background-color: #FFFFFF !important;
+                color: #1F2937 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .screen-header, .instructions-panel {
+                display: none !important;
+            }
+            
+            .document-wrapper {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            .page-container {
+                width: 100% !important;
+                height: 277mm !important; /* Perfect fit for A4 height with 10mm top/bottom margins */
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin-bottom: 0 !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                background-color: #FFFFFF !important;
+            }
+            
+            .page-container:last-child {
+                page-break-after: avoid !important;
+                break-after: auto !important;
+            }
+            
+            .card {
+                background-color: #FAFBFD !important;
+                box-shadow: none !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .header-banner {
+                background: linear-gradient(135deg, #191414 0%, #154523 50%, #1DB954 100%) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .step-item {
+                background-color: #FAFBFD !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN-ONLY HEADER CONTROL BAR -->
+    <div class="screen-header">
+        <h1><span>Spotify</span> Data Governance Policy • Livrable 2</h1>
+        <div class="controls-group">
+            <button class="btn btn-secondary" id="theme-toggle-btn" onclick="toggleTheme()">Mode Sombre Spotify 🌙</button>
+            <button class="btn" onclick="window.print()">Exporter en PDF 🖨️</button>
+        </div>
+    </div>
+
+    <!-- SCREEN-ONLY PRINTING INSTRUCTIONS -->
+    <div class="instructions-panel">
+        <h3>💡 Astuce d'impression haut de gamme</h3>
+        <ol>
+            <li>Cliquez sur le bouton <strong>"Exporter en PDF 🖨️"</strong> ci-dessus (ou faites <strong>Ctrl + P</strong> / <strong>Cmd + P</strong> dans votre navigateur).</li>
+            <li>Dans la fenêtre d'impression, choisissez l'imprimante <strong>"Enregistrer au format PDF"</strong>.</li>
+            <li>Déroulez l'onglet <em>"Plus de paramètres"</em> et cochez impérativement la case <strong>"Graphiques d'arrière-plan"</strong> (indispensable pour les dégradés de couleurs et les fonds de cartes).</li>
+            <li>Réglez les marges sur <strong>"Par défaut"</strong>. Vous obtiendrez un PDF d'une qualité d'édition exceptionnelle tenant sur <strong>exactement 4 pages parfaites</strong>.</li>
+        </ol>
+    </div>
+
+    <!-- MAIN DOCUMENT WRAPPER -->
+    <div class="document-wrapper">
+
+        <!-- ==================== PAGE 1 ==================== -->
+        <div class="page-container">
+            <div class="page-content">
+                <div class="header-banner">
+                    <h1>Livrable 2 : Charte globale de politique de gouvernance des données</h1>
+                    <div class="subtitle">Certification Architecte en IA (RNCP 38777 - bloc 1) • Charte globale d'organisation des pouvoirs</div>
+                    <div class="meta-grid">
+                        <div class="meta-item"><strong>Auteur :</strong> Caroline HEYMES</div>
+                        <div class="meta-item" style="text-align: center;"><strong>Date :</strong> 9 juin 2026</div>
+                        <div class="meta-item" style="text-align: right;"><strong>Cas d'étude :</strong> Spotify S.A.</div>
+                    </div>
+                </div>
+
+                <h2>Table des matières</h2>
+                <ul class="toc-list">
+                    <li><span>1. Objet de la charte et cadre de référence</span> <span class="dots"></span> <span class="page-num">Page 1</span></li>
+                    <li><span>2. Les neuf principes fondamentaux de la gouvernance de Spotify</span> <span class="dots"></span> <span class="page-num">Page 1</span></li>
+                    <li><span>3. Modèle de gouvernance et organisation des pouvoirs (rôles et responsabilités)</span> <span class="dots"></span> <span class="page-num">Page 2</span></li>
+                    <li><span>4. Cadre de conformité légale (RGPD, CCPA, PCI-DSS)</span> <span class="dots"></span> <span class="page-num">Page 3</span></li>
+                    <li><span>5. Accessibilité numérique et inclusion des personnes (RGAA et WCAG)</span> <span class="dots"></span> <span class="page-num">Page 4</span></li>
+                    <li><span>6. Veille réglementaire continue et procédures de mise à jour</span> <span class="dots"></span> <span class="page-num">Page 4</span></li>
+                    <li><span>7. Conclusion</span> <span class="dots"></span> <span class="page-num">Page 4</span></li>
+                </ul>
+
+                <h2>1. Objet de la charte et cadre de référence</h2>
+                <p>Cette charte définit le cadre réglementaire, organisationnel et technique applicable à l'ensemble des actifs de données de Spotify Technology S.A. dans ses 180 pays d'opération.</p>
+
+                <h3>Fondements théoriques</h3>
+                <p>Cette politique s'appuie sur deux référentiels d'autorité en matière de gestion des données et de sécurité de l'information :</p>
+                <ul>
+                    <li>Le cadre méthodologique <strong>DAMA-DMBOK2</strong> (<em>Data Management Body of Knowledge</em>) pour structurer les domaines de connaissances de la gestion de données.</li>
+                    <li>La norme <strong>ISO/IEC 27001:2022</strong> pour la mise en œuvre du Système de Management de la Sécurité de l'Information (SMSI).</li>
+                </ul>
+
+                <h2>2. Les neuf principes fondamentaux de la gouvernance</h2>
+                <p>Pour guider l'action des équipes et concilier l'innovation technologique avec la protection des utilisateurs, Spotify retient une structure de neuf principes directeurs :</p>
+
+                <div class="mermaid">
+flowchart TD
+    P1[1. Accountability <br> Responsabilisation]
+    P2[2. Transparency <br> Transparence]
+    P3[3. Data Security <br> Sécurité Globale]
+    P4[4. Data Quality <br> Qualité Continue]
+    P5[5. Compliance <br> Conformité Régionale]
+    P6[6. Data Minimization <br> Minimisation Raisonnée]
+    P7[7. User Rights <br> Souveraineté Utilisateur]
+    P8[8. Continuous Improvement <br> Amélioration Itérative]
+    P9[9. Ethical Use <br> Éthique Algorithmique]
+    
+    Principles[Les 9 Principes de Gouvernance] --> P1
+    Principles --> P2
+    Principles --> P3
+    Principles --> P4
+    Principles --> P5
+    Principles --> P6
+    Principles --> P7
+    Principles --> P8
+    Principles --> P9
+
+    class P1,P2,P3,P4,P5,P6,P7,P8,P9 pr;
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Spotify Technology S.A. • Charte Globale de Gouvernance</span>
+                <span><strong>Page 1 / 4</strong></span>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 2 ==================== -->
+        <div class="page-container">
+            <div class="page-content">
+                <p style="margin-bottom: 12px; font-weight: 500;">Les applications opérationnelles des principes directeurs de Spotify sont structurées comme suit :</p>
+                
+                <div class="grid-3col" style="margin-bottom: 12px;">
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">1. Responsabilisation</span></div>
+                        <p>Chaque donnée collectée ou traitée est rattachée à un propriétaire identifié (<em>Data Owner</em>) et supervisée par un gestionnaire (<em>Data Steward</em>).</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">2. Transparence</span></div>
+                        <p>Spotify explique de manière claire comment les données d'écoute, de recherche et de profil sont exploitées par nos modèles d'IA.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">3. Sécurité Globale</span></div>
+                        <p>Données protégées par un chiffrement fort (AES-256 au repos, TLS 1.3 en transit) et cloisonnement des bases financières PCI-DSS.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">4. Qualité Continue</span></div>
+                        <p>Audits et règles de nettoyage automatique des métadonnées du catalogue en ligne exécutés en temps réel lors de l'ingestion.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">5. Conformité Régionale</span></div>
+                        <p>Alignement rigoureux sur les législations territoriales les plus protectrices (RGPD en Europe, CCPA aux USA, PDPA à Singapour).</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">6. Minimisation</span></div>
+                        <p>Collecter uniquement les données nécessaires au streaming et purger automatiquement les logs bruts après 24 mois d'inactivité.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">7. Souveraineté</span></div>
+                        <p>Chaque abonné dispose d'un contrôle automatisé direct sur ses droits légaux (accès, oubli) depuis l'interface de l'application.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">8. Progrès Itératif</span></div>
+                        <p>Évaluation bimensuelle et adaptation continue du cadre réglementaire face aux évolutions de l'IA et de la législation.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">9. Éthique IA</span></div>
+                        <p>Surveillance continue des réseaux de neurones pour détecter et corriger les biais d'exclusion d'artistes ou stéréotypes musicaux.</p>
+                    </div>
+                </div>
+
+                <h2>3. Modèle de gouvernance et organisation des pouvoirs</h2>
+                <p>Pour éviter les conflits d'intérêts où les équipes techniques évaluent leurs propres réalisations, Spotify retient une structure de gouvernance fédérée asynchrone. Ce modèle est piloté par un Centre d'Excellence (CoE) indépendant de la direction informatique (DSI).</p>
+
+                <div class="mermaid">
+flowchart TD
+    subgraph CoE["Centre d'Excellence Central"]
+        CDO["Chief Data Officer"]
+        DPO["Data Protection Officer"]
+        DGC["Data Governance Committee"]
+    end
+    
+    subgraph Business["Départements Métiers & R&D"]
+        DO["Data Owners <br> ex. Dir. Marketing"]
+        DS["Data Stewards <br> Embarqués"]
+        DC["Data Custodians <br> IT/DBAs"]
+    end
+    
+    DGC -->|1. Politiques & Budgets| DO
+    CDO -->|2. Alignement Stratégique| DO
+    DPO -->|3. Audits de Conformité| DS
+    DS  -->|4. Profilage & Catalogues| DC
+    
+    class CDO,DPO,DGC nodeCoe;
+    class DO,DS,DC nodeDept;
+                </div>
+
+                <h3 style="margin-top: 10px; margin-bottom: 4px;">Rôles stratégiques (Centre d'Excellence - CoE)</h3>
+                <div class="grid-3col" style="margin-bottom: 0;">
+                    <!-- CDO -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Chief Data Officer (CDO)</span>
+                            <span class="badge-role badge-coe">CoE</span>
+                        </div>
+                        <p><strong>Mission :</strong> Diriger la stratégie de valorisation de la donnée et présider le comité.</p>
+                        <ul>
+                            <li>Allouer les budgets technologiques.</li>
+                            <li>Arbitrer les écarts sémantiques.</li>
+                            <li>Évaluer la valeur économique des actifs.</li>
+                        </ul>
+                    </div>
+                    <!-- DPO -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Data Protection Officer (DPO)</span>
+                            <span class="badge-role badge-coe">CoE</span>
+                        </div>
+                        <p><strong>Mission :</strong> Garantir la conformité légale et la protection de la vie privée mondiale.</p>
+                        <ul>
+                            <li>Mener les analyses d'impact (AIPD).</li>
+                            <li>Assurer la liaison réglementaire CNIL.</li>
+                            <li>Coordonner les violations de données.</li>
+                        </ul>
+                    </div>
+                    <!-- Committee -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Comité de Gouvernance</span>
+                            <span class="badge-role badge-coe">CoE</span>
+                        </div>
+                        <p><strong>Mission :</strong> Valider les politiques globales et piloter l'évaluation de la maturité data.</p>
+                        <ul>
+                            <li><strong>Membres :</strong> CDO, DPO, DSI, Directeurs du Marketing, R&D et Finance.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Spotify Technology S.A. • Charte Globale de Gouvernance</span>
+                <span><strong>Page 2 / 4</strong></span>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 3 ==================== -->
+        <div class="page-container">
+            <div class="page-content">
+                <h3 style="margin-top: 0; margin-bottom: 6px;">Rôles opérationnels (Métiers & R&D)</h3>
+                <div class="grid-3col" style="margin-bottom: 12px;">
+                    <!-- Data Owner -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Data Owner (Propriétaire)</span>
+                            <span class="badge-role badge-biz">Métier</span>
+                        </div>
+                        <p><strong>Mission :</strong> Garantir la définition, la qualité et la conformité éthique de son domaine métier.</p>
+                        <ul>
+                            <li>Déclarer la propriété technique via un fichier <code>owner.yaml</code> dans Git.</li>
+                            <li>Gérer l'élimination des ressources orphelines via <strong>Backstage</strong>.</li>
+                        </ul>
+                    </div>
+                    <!-- Data Steward -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Data Steward (Gestionnaire)</span>
+                            <span class="badge-role badge-biz">Métier</span>
+                        </div>
+                        <p><strong>Mission :</strong> Traduire les politiques centrales en configurations dans les Squads.</p>
+                        <ul>
+                            <li>Documenter les jeux de données (écoute/profils).</li>
+                            <li>Valider et exécuter les règles de qualité.</li>
+                            <li>Comparer les pipelines aux <strong>Golden States</strong>.</li>
+                        </ul>
+                    </div>
+                    <!-- Data Custodian -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Data Custodian (Gardien)</span>
+                            <span class="badge-role badge-biz">Métier</span>
+                        </div>
+                        <p><strong>Mission :</strong> Opérer l'infrastructure cloud physique de stockage (Data Engineers, SREs).</p>
+                        <ul>
+                            <li>Administrer GCP (BigQuery, Cloud Storage).</li>
+                            <li>Appliquer le chiffrement KMS sélectif.</li>
+                            <li>Automatiser le cycle de vie par script.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>4. Cadre de conformité légale (RGPD, CCPA, PCI-DSS)</h2>
+                <p>La conformité chez Spotify is conçue comme un processus automatisé, intégré directement dans nos pipelines d'ingestion et de traitement des données.</p>
+
+                <h3>4.1. Principes de traitement du RGPD (Article 5)</h3>
+                <div class="grid-3col" style="margin-bottom: 12px;">
+                    <div class="card" style="border-left: 3px solid var(--spotify-green);">
+                        <div class="card-header"><span class="card-title">Légalité (Lawfulness)</span></div>
+                        <p>Chaque traitement s'appuie sur une base légale définie : contrat (streaming), consentement (pub), intérêt légitime (lutte anti-fraude).</p>
+                    </div>
+                    <div class="card" style="border-left: 3px solid var(--spotify-green);">
+                        <div class="card-header"><span class="card-title">Loyauté (Fairness)</span></div>
+                        <p>L'algorithme ne doit jamais manipuler ou biaiser le comportement d'écoute de l'utilisateur de manière trompeuse.</p>
+                    </div>
+                    <div class="card" style="border-left: 3px solid var(--spotify-green);">
+                        <div class="card-header"><span class="card-title">Transparence (Transparency)</span></div>
+                        <p>L'architecture de nos algorithmes de recommandation est rigoureusement documentée pour assurer l'explicabilité de l'IA.</p>
+                    </div>
+                </div>
+
+                <h3>4.2. Automatisation des droits des abonnés</h3>
+                <div class="card" style="border-left: 3px solid var(--spotify-green);">
+                    <div class="grid-2col" style="margin-bottom: 0;">
+                        <div>
+                            <p style="font-weight: 700; color: var(--page-text-strong); margin-bottom: 3px;">Droit d'accès & portabilité</p>
+                            <p style="font-size: 7.2pt; line-height: 1.25; margin-bottom: 0;">Un clic sur l'application déclenche la compilation automatique de l'historique d'écoute par API dans un fichier JSON, disponible au téléchargement sous 48h.</p>
+                        </div>
+                        <div>
+                            <p style="font-weight: 700; color: var(--page-text-strong); margin-bottom: 3px;">Droit à l'oubli (effacement)</p>
+                            <p style="font-size: 7.2pt; line-height: 1.25; margin-bottom: 0;">La résiliation déclenche un signal API programmé purgeant ou anonymisant de manière irréversible toutes les données de l'utilisateur sous 30 jours.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Spotify Technology S.A. • Charte Globale de Gouvernance</span>
+                <span><strong>Page 3 / 4</strong></span>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 4 ==================== -->
+        <div class="page-container">
+            <div class="page-content">
+                <!-- 4.4 KMS et Cycle de vie moved to top of Page 4 -->
+                <h3 style="margin-top: 0; margin-bottom: 4px;">4.4. Chiffrement KMS & cycle de vie automatique</h3>
+                <div class="card" style="border-left: 3px solid var(--spotify-green); margin-bottom: 8px;">
+                    <div class="grid-2col" style="margin-bottom: 0;">
+                        <div>
+                            <p style="font-weight: 700; color: var(--page-text-strong); margin-bottom: 3px;">Chiffrement KMS sélectif</p>
+                            <p style="font-size: 7.2pt; line-height: 1.25; margin-bottom: 0;">Cryptage sélectif au repos (AES-256) des informations sensibles (PII, facturation) avec cloisonnement strict et rotation continue des clés KMS cloud, limitant l'accès selon le principe du moindre privilège.</p>
+                        </div>
+                        <div>
+                            <p style="font-weight: 700; color: var(--page-text-strong); margin-bottom: 3px;">Cycle de vie codé</p>
+                            <p style="font-size: 7.2pt; line-height: 1.25; margin-bottom: 0;">Les règles de rétention et les politiques de purge (destruction automatique après 24 mois d'inactivité) sont codées sous forme de règles logicielles d'infrastructure sans intervention humaine.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>4.3. Protocole de notification des violations de données (Incident Cyber)</h3>
+                <div class="steps-timeline" style="margin-bottom: 10px;">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Détection continue</div>
+                        <p class="step-text">Surveillance active des accès bases de données en temps réel via Splunk SIEM.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Confinement immédiat</div>
+                        <p class="step-text">Isolation immédiate de l'environnement compromis par l'équipe SecOps.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Évaluation & Alerte</div>
+                        <p class="step-text">Le DPO évalue le risque, notifie la CNIL sous 72h et alerte les abonnés si nécessaire.</p>
+                    </div>
+                </div>
+
+                <h2>5. Accessibilité numérique et inclusion (RGAA et WCAG)</h2>
+                <div class="callout-box">
+                    <p><strong>[IMPORTANT]</strong> L'inclusion et l'accessibilité des personnes en situation de handicap représentent une exigence réglementaire et professionnelle fondamentale de notre démarche d'architecture.</p>
+                </div>
+                
+                <p>Spotify intègre les exigences du <strong>RGAA 4.1.2</strong> et les normes internationales <strong>WCAG 2.2</strong> :</p>
+                <div class="grid-2col" style="margin-bottom: 8px;">
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">5.1. Plateformes internes de données</span></div>
+                        <p style="font-size: 7pt; line-height: 1.2; margin-bottom: 4px;">Les portails, catalogues (Collibra, Alation) et Dashboards (Tableau, Looker) respectent les normes d'accessibilité :</p>
+                        <ul>
+                            <li>Lecteurs d'écran (HTML5 sémantique, ARIA).</li>
+                            <li>Navigation clavier exclusive par Tabulation.</li>
+                            <li>Rapport de contraste minimal (4.5:1 / 3:1).</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">5.2. Application cliente externe</span></div>
+                        <p style="font-size: 7pt; line-height: 1.2; margin-bottom: 4px;">L'application grand public intègre également des technologies inclusives :</p>
+                        <ul>
+                            <li>Contrôle vocal étendu pour handicap moteur.</li>
+                            <li>Transcriptions textuelles synchronisées en temps réel des flux audio et des podcasts.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>6. Veille réglementaire continue et mise à jour</h2>
+                <p>Pour adapter notre cadre à l'<strong>EU AI Act</strong>, un processus de veille bimensuelle est exécuté :</p>
+                
+                <div class="mermaid">
+flowchart LR
+    V1["1. COLLECTE <br>DPO & Équipe Légale"] --> V2["2. ANALYSE <br>CDO & Architects"]
+    V2 --> V3["3. VALIDATION <br>Comité de Gouvernance"]
+    V3 --> V4["4. DÉPLOIEMENT <br>Stewards & Custodians"]
+    V4 --> V1
+                </div>
+
+                <h2>7. Conclusion</h2>
+                <p style="margin-bottom: 0;">Cette charte de gouvernance dote Spotify d'un cadre de responsabilité solide. En articulant nos processus autour d'un CoE indépendant, en automatisant la conformité (RGPD) et en appliquant l'inclusion par conception (RGAA/WCAG), Spotify sécurise son business tout en créant un environnement IA d'excellence, sûr et éthique.</p>
+            </div>
+            <div class="page-footer">
+                <span>Spotify Technology S.A. • Charte Globale de Gouvernance</span>
+                <span><strong>Page 4 / 4</strong></span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MAIN JAVASCRIPT FOR DYNAMIC THEME AND COMPILATION -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+
+        // Toggle Theme Script
+        function toggleTheme() {
+            const root = document.documentElement;
+            const currentBg = root.style.getPropertyValue('--page-bg').trim();
+            const btn = document.getElementById('theme-toggle-btn');
+            
+            if (currentBg === '#121212' || currentBg === 'rgb(18, 18, 18)') {
+                // Switch to Light/Print look
+                root.style.setProperty('--page-bg', '#FFFFFF');
+                root.style.setProperty('--page-text', '#1F2937');
+                root.style.setProperty('--page-text-strong', '#111827');
+                root.style.setProperty('--page-border', '#E5E7EB');
+                root.style.setProperty('--card-bg', '#FAFBFD');
+                root.style.setProperty('--card-shadow', '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)');
+                root.style.setProperty('--header-gradient', 'linear-gradient(135deg, #191414 0%, #154523 50%, #1DB954 100%)');
+                
+                // Mermaid variables in Light Mode
+                root.style.setProperty('--mermaid-coe-bg', '#E0E7FF');
+                root.style.setProperty('--mermaid-coe-stroke', '#4F46E5');
+                root.style.setProperty('--mermaid-coe-text', '#312E81');
+                root.style.setProperty('--mermaid-dept-bg', '#F1F5F9');
+                root.style.setProperty('--mermaid-dept-stroke', '#475569');
+                root.style.setProperty('--mermaid-dept-text', '#1E293B');
+                
+                btn.innerText = 'Mode Sombre Spotify 🌙';
+                btn.style.backgroundColor = '';
+                btn.style.color = '';
+            } else {
+                // Switch to Spotify Premium Dark look
+                root.style.setProperty('--page-bg', '#121212');
+                root.style.setProperty('--page-text', '#E2E8F0');
+                root.style.setProperty('--page-text-strong', '#FFFFFF');
+                root.style.setProperty('--page-border', '#2A2A2A');
+                root.style.setProperty('--card-bg', '#191414');
+                root.style.setProperty('--card-shadow', '0 10px 25px rgba(0, 0, 0, 0.5)');
+                root.style.setProperty('--header-gradient', 'linear-gradient(135deg, #000000 0%, #0d2a16 50%, #1DB954 100%)');
+                
+                // Mermaid variables in Dark Mode
+                root.style.setProperty('--mermaid-coe-bg', '#1E1B4B');
+                root.style.setProperty('--mermaid-coe-stroke', '#818CF8');
+                root.style.setProperty('--mermaid-coe-text', '#E0E7FF');
+                root.style.setProperty('--mermaid-dept-bg', '#0F172A');
+                root.style.setProperty('--mermaid-dept-stroke', '#94A3B8');
+                root.style.setProperty('--mermaid-dept-text', '#F1F5F9');
+                
+                btn.innerText = 'Mode Impression Clair ☀️';
+                btn.style.backgroundColor = '#FFFFFF';
+                btn.style.color = '#000000';
+            }
+        }
+    </script>
+</body>
+</html>

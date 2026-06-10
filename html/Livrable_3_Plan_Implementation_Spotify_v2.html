@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livrable 3 : Plan d'implémentation du programme et plan pilote (marketing) - Spotify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --spotify-green: #1DB954;
+            --spotify-green-hover: #1ed760;
+            --spotify-black: #191414;
+            --spotify-dark: #121212;
+            --spotify-grey: #242424;
+            --text-primary-dark: #FFFFFF;
+            --text-secondary-dark: #B3B3B3;
+            --text-primary-light: #1F2937;
+            --text-secondary-light: #4B5563;
+            
+            /* CSS variables that can be modified dynamically */
+            --page-bg: #FFFFFF;
+            --page-text: #1F2937;
+            --page-text-strong: #111827;
+            --page-border: #E5E7EB;
+            --card-bg: #FAFBFD;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --header-gradient: linear-gradient(135deg, #191414 0%, #154523 50%, #1DB954 100%);
+            
+            /* Mermaid Colors in Light Mode */
+            --mermaid-coe-bg: #E0E7FF;
+            --mermaid-coe-stroke: #4F46E5;
+            --mermaid-coe-text: #312E81;
+            --mermaid-dept-bg: #F1F5F9;
+            --mermaid-dept-stroke: #475569;
+            --mermaid-dept-text: #1E293B;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--spotify-dark);
+            color: var(--text-primary-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.35;
+            font-size: 8.5pt;
+        }
+
+        /* Screen Header Control Bar (Hidden on print) */
+        .screen-header {
+            background: linear-gradient(90deg, var(--spotify-black) 0%, #282828 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .screen-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12pt;
+            margin: 0;
+            color: #FFFFFF;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .screen-header h1 span {
+            color: var(--spotify-green);
+        }
+
+        .controls-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: var(--spotify-green);
+            color: #000000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 500px;
+            font-size: 8pt;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(29, 185, 84, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--spotify-green-hover);
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 6px 15px rgba(29, 185, 84, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0) scale(1);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #FFFFFF;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: #FFFFFF;
+            box-shadow: none;
+        }
+
+        /* Screen instructions bar */
+        .instructions-panel {
+            max-width: 800px;
+            margin: 25px auto 5px auto;
+            background: rgba(30, 41, 59, 0.65);
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 8.5pt;
+            color: #E2E8F0;
+            backdrop-filter: blur(8px);
+        }
+
+        .instructions-panel h3 {
+            margin: 0 0 6px 0;
+            color: var(--spotify-green);
+            font-family: 'Outfit', sans-serif;
+            font-size: 9.5pt;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .instructions-panel ol {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .instructions-panel li {
+            margin-bottom: 4px;
+        }
+
+        /* Document Wrapper containing Pages */
+        .document-wrapper {
+            max-width: 210mm;
+            margin: 0 auto 50px auto;
+            padding: 10px 0;
+        }
+
+        /* Pure A4 Portrait Page layout on Screen */
+        .page-container {
+            width: 210mm;
+            height: 297mm;
+            background-color: var(--page-bg);
+            color: var(--page-text);
+            padding: 15mm 20mm;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border-radius: 4px;
+            position: relative;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .page-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* Page header and footer templates */
+        .page-footer {
+            border-top: 1.5px solid var(--page-border);
+            padding-top: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 7.2pt;
+            color: var(--text-secondary-light);
+            font-weight: 500;
+            margin-top: auto;
+        }
+
+        .page-footer strong {
+            color: var(--spotify-green);
+            font-weight: 700;
+        }
+
+        /* Typography styles inside page */
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 11pt;
+            color: var(--page-text-strong);
+            border-bottom: 2px solid var(--spotify-green);
+            padding-bottom: 2px;
+            margin-top: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 800;
+        }
+
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 9pt;
+            color: var(--spotify-green);
+            margin-top: 8px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 6px;
+            text-align: justify;
+            color: var(--page-text);
+        }
+
+        ul, ol {
+            margin-top: 0;
+            margin-bottom: 8px;
+            padding-left: 18px;
+        }
+
+        li {
+            margin-bottom: 3px;
+            color: var(--page-text);
+        }
+
+        /* Page 1 - Elegant Header Banner */
+        .header-banner {
+            background: var(--header-gradient);
+            color: #FFFFFF;
+            padding: 20px 25px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header-banner h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13pt;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin: 0 0 5px 0;
+            line-height: 1.25;
+            text-transform: uppercase;
+            letter-spacing: -0.2px;
+        }
+
+        .header-banner .subtitle {
+            font-size: 8.5pt;
+            color: #CBD5E1;
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        .header-banner .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 8px;
+            font-size: 7.2pt;
+            color: #94A3B8;
+        }
+
+        .header-banner .meta-item strong {
+            color: #FFFFFF;
+        }
+
+        /* Table of Contents List */
+        .toc-list {
+            list-style: none !important;
+            padding-left: 0 !important;
+            margin-bottom: 15px !important;
+        }
+
+        .toc-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px dashed var(--page-border);
+            padding: 4px 0;
+            font-size: 7.8pt;
+        }
+
+        .toc-list li span.page-num {
+            font-weight: 700;
+            color: var(--spotify-green);
+            padding-left: 10px;
+        }
+
+        /* Grid Framework for 2-column or 3-column elements */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .grid-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* Interactive and Responsive Card Styling */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--page-border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--spotify-green);
+            transform: translateY(-1px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+            border-bottom: 1px solid var(--page-border);
+            padding-bottom: 4px;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 8pt;
+            font-weight: 700;
+            color: var(--page-text-strong);
+            margin: 0;
+        }
+
+        .badge-role {
+            font-size: 5.5pt;
+            font-weight: 700;
+            padding: 1px 4px;
+            border-radius: 100px;
+            text-transform: uppercase;
+        }
+
+        .badge-coe {
+            background-color: #312E81;
+            color: #FFFFFF;
+        }
+
+        .badge-biz {
+            background-color: var(--spotify-green);
+            color: #000000;
+        }
+
+        .card p {
+            font-size: 7.2pt;
+            margin-bottom: 4px;
+            line-height: 1.25;
+        }
+
+        .card ul {
+            margin: 0 !important;
+            padding-left: 12px !important;
+        }
+
+        .card li {
+            font-size: 7pt;
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        /* RACI Matrix Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 7.2pt;
+            margin: 8px 0;
+            background-color: var(--card-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--page-border);
+        }
+        
+        th {
+            background-color: var(--spotify-black);
+            color: #FFFFFF;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 6.2pt;
+            letter-spacing: 0.5px;
+            padding: 6px 4px;
+            text-align: center;
+        }
+        
+        td {
+            padding: 5px 4px;
+            border-bottom: 1px solid var(--page-border);
+            text-align: center;
+            color: var(--page-text);
+        }
+        
+        tr:nth-child(even) {
+            background-color: rgba(0,0,0,0.01);
+        }
+        
+        td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: var(--page-text-strong);
+            font-size: 7.2pt;
+            padding-left: 8px;
+        }
+
+        .raci-badge {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            font-size: 6.2pt;
+            font-weight: 800;
+            text-align: center;
+        }
+        
+        .raci-a {
+            background-color: #312E81;
+            color: #FFFFFF;
+            box-shadow: 0 2px 4px rgba(49, 46, 129, 0.25);
+        }
+        
+        .raci-r {
+            background-color: var(--spotify-green);
+            color: #000000;
+            box-shadow: 0 2px 4px rgba(29, 185, 84, 0.25);
+        }
+        
+        .raci-c {
+            background-color: #E2E8F0;
+            color: #475569;
+            border: 1px solid #CBD5E1;
+        }
+        
+        .raci-i {
+            background-color: #F8FAFC;
+            color: #94A3B8;
+            border: 1px dashed #E2E8F0;
+        }
+
+        /* Highlighted Callout block */
+        .callout-box {
+            background-color: #F0FDF4;
+            border-left: 4px solid var(--spotify-green);
+            border-radius: 0 6px 6px 0;
+            padding: 8px 12px;
+            margin: 8px 0;
+        }
+
+        .callout-box p {
+            margin: 0 !important;
+            font-size: 7.6pt;
+            font-weight: 600;
+            color: #166534 !important;
+        }
+
+        /* Vertical Timeline steps for security responses */
+        .vertical-steps {
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid var(--page-border);
+            margin: 10px 0 10px 10px;
+        }
+        
+        .vertical-step-item {
+            position: relative;
+            margin-bottom: 8px;
+        }
+        
+        .vertical-step-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .vertical-step-badge {
+            position: absolute;
+            left: -27px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: var(--spotify-green);
+            color: #000000;
+            font-family: 'Outfit', sans-serif;
+            font-size: 6.5pt;
+            font-weight: 800;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .vertical-step-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 8pt;
+            font-weight: 700;
+            color: var(--page-text-strong);
+            margin-bottom: 2px;
+        }
+        
+        .vertical-step-text {
+            font-size: 7.2pt;
+            color: var(--page-text);
+            line-height: 1.25;
+            margin: 0;
+        }
+
+        /* Mermaid graphics wrapper */
+        .mermaid {
+            background-color: var(--card-bg);
+            border: 1px solid var(--page-border);
+            border-radius: 6px;
+            padding: 8px;
+            margin: 8px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-height: 320px; /* Increased to allow diagrams to scale up nicely and remain highly legible */
+            overflow: hidden;
+            width: 100%;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Specific rule for complex, multi-row charts like Gantt */
+        .mermaid.tall-diagram {
+            max-height: 480px;
+        }
+
+        /* Force Mermaid element styles for premium look and dark/light support */
+        .mermaid svg {
+            font-family: 'Inter', sans-serif !important;
+            background-color: transparent !important;
+            max-height: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+        }
+        
+        /* Default Mermaid Node Styling */
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node polygon,
+        .mermaid .node path,
+        .mermaid .node ellipse {
+            fill: var(--card-bg) !important;
+            stroke: var(--page-border) !important;
+            stroke-width: 1.5px !important;
+            rx: 6px !important;
+            ry: 6px !important;
+        }
+        .mermaid .node .label,
+        .mermaid .node text {
+            color: var(--page-text-strong) !important;
+            fill: var(--page-text-strong) !important;
+            font-weight: 600 !important;
+            font-size: 9pt !important; /* Increased from 7.5pt for maximum readability */
+        }
+
+        /* Prevent subgraphs from rendering as black blocks */
+        .mermaid .cluster rect {
+            fill: var(--card-bg) !important;
+            stroke: var(--page-border) !important;
+            stroke-width: 1.5px !important;
+            rx: 8px !important;
+            ry: 8px !important;
+        }
+        .mermaid .cluster-label, 
+        .mermaid .cluster-label span,
+        .mermaid .cluster text {
+            fill: var(--page-text-strong) !important;
+            color: var(--page-text-strong) !important;
+            font-weight: 800 !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 10pt !important; /* Increased from 8pt for better visibility of headers */
+        }
+
+        /* CoE Centralized Nodes (Blue/Indigo theme) using CSS variables */
+        .mermaid .nodeCoe rect,
+        .mermaid .nodeCoe circle,
+        .mermaid .nodeCoe polygon,
+        .mermaid .nodeCoe path,
+        .mermaid .nodeCoe ellipse {
+            fill: var(--mermaid-coe-bg) !important;
+            stroke: var(--mermaid-coe-stroke) !important;
+            stroke-width: 1.5px !important;
+        }
+        .mermaid .nodeCoe .label,
+        .mermaid .nodeCoe text {
+            fill: var(--mermaid-coe-text) !important;
+            color: var(--mermaid-coe-text) !important;
+            font-weight: 700 !important;
+        }
+
+        /* Business Embedded Nodes (Green/Grey theme) using CSS variables */
+        .mermaid .nodeDept rect,
+        .mermaid .nodeDept circle,
+        .mermaid .nodeDept polygon,
+        .mermaid .nodeDept path,
+        .mermaid .nodeDept ellipse {
+            fill: var(--mermaid-dept-bg) !important;
+            stroke: var(--mermaid-dept-stroke) !important;
+            stroke-width: 1.5px !important;
+        }
+        .mermaid .nodeDept .label,
+        .mermaid .nodeDept text {
+            fill: var(--mermaid-dept-text) !important;
+            color: var(--mermaid-dept-text) !important;
+            font-weight: 700 !important;
+        }
+
+        /* Edge and Connection Arrow Styling */
+        .mermaid .edgePath .path {
+            stroke: var(--spotify-green) !important;
+            stroke-width: 1.5px !important;
+        }
+        .mermaid .edgeLabel rect {
+            fill: var(--page-bg) !important;
+            rx: 3px !important;
+            ry: 3px !important;
+        }
+        .mermaid .edgeLabel span,
+        .mermaid .edgeLabel text {
+            color: var(--page-text) !important;
+            fill: var(--page-text) !important;
+            font-size: 7.5pt !important; /* Increased from 6.5pt */
+            font-weight: 600 !important;
+        }
+        .mermaid marker path {
+            fill: var(--spotify-green) !important;
+            stroke: var(--spotify-green) !important;
+        }
+
+        /* Spotify Green custom class for Section 2 principles diagram */
+        .mermaid .pr rect,
+        .mermaid .pr circle,
+        .mermaid .pr polygon,
+        .mermaid .pr path,
+        .mermaid .pr ellipse {
+            fill: var(--spotify-green) !important;
+            stroke: var(--spotify-green-hover) !important;
+            stroke-width: 1px !important;
+        }
+        .mermaid .pr .label,
+        .mermaid .pr text {
+            color: #000000 !important;
+            fill: #000000 !important;
+            font-weight: 700 !important;
+        }
+
+        /* Sequence Diagram Custom Styling */
+        .mermaid .actor rect {
+            fill: var(--card-bg) !important;
+            stroke: var(--page-border) !important;
+            stroke-width: 1.5px !important;
+        }
+        .mermaid .actor text {
+            fill: var(--page-text-strong) !important;
+            font-weight: 700 !important;
+        }
+        .mermaid .actor-line {
+            stroke: var(--page-border) !important;
+            stroke-width: 1.5px !important;
+        }
+        .mermaid .messageLine0,
+        .mermaid .messageLine1 {
+            stroke: var(--spotify-green) !important;
+            stroke-width: 1.5px !important;
+        }
+        .mermaid .messageText {
+            fill: var(--page-text) !important;
+            font-size: 7.5pt !important;
+            font-weight: 600 !important;
+        }
+        .mermaid .note {
+            fill: var(--mermaid-coe-bg) !important;
+            stroke: var(--mermaid-coe-stroke) !important;
+            stroke-width: 1px !important;
+        }
+        .mermaid .noteText {
+            fill: var(--mermaid-coe-text) !important;
+            font-size: 7.5pt !important;
+            font-weight: 600 !important;
+        }
+        .mermaid .sequenceNumber {
+            fill: #FFFFFF !important;
+            font-weight: 800 !important;
+        }
+
+        /* Gantt Chart Custom Styling */
+        .mermaid .gridPath {
+            stroke: var(--page-border) !important;
+            stroke-width: 0.5px !important;
+        }
+        .mermaid .tick text,
+        .mermaid .grid text {
+            fill: var(--page-text) !important;
+            font-size: 7pt !important;
+        }
+        .mermaid .taskText {
+            fill: #FFFFFF !important;
+            font-weight: 700 !important;
+            font-size: 7.5pt !important;
+        }
+        .mermaid .taskTextOutside {
+            fill: var(--page-text-strong) !important;
+            font-weight: 600 !important;
+            font-size: 7.5pt !important;
+        }
+        .mermaid .task {
+            stroke: none !important;
+            stroke-width: 0 !important;
+            rx: 3px !important;
+            ry: 3px !important;
+        }
+        .mermaid .task0,
+        .mermaid .task1,
+        .mermaid .task2,
+        .mermaid .task3 {
+            fill: #475569 !important; /* Muted gray for inactive tasks */
+        }
+        .mermaid .taskActive0,
+        .mermaid .taskActive1,
+        .mermaid .taskActive2,
+        .mermaid .taskActive3 {
+            fill: var(--spotify-green) !important; /* Spotify Green for active tasks */
+            stroke: var(--spotify-green-hover) !important;
+        }
+        .mermaid .taskDone0,
+        .mermaid .taskDone1,
+        .mermaid .taskDone2,
+        .mermaid .taskDone3 {
+            fill: #312E81 !important; /* Muted blue for done tasks */
+        }
+        .mermaid .section {
+            fill: var(--page-bg) !important;
+            stroke: var(--page-border) !important;
+        }
+        .mermaid .sectionTitle {
+            fill: var(--page-text-strong) !important;
+            font-weight: 700 !important;
+            font-size: 8pt !important;
+        }
+        .mermaid .titleText {
+            fill: var(--page-text-strong) !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 800 !important;
+            font-size: 10pt !important;
+        }
+
+        /* Quadrant Chart Custom Styling */
+        .mermaid .quadrant {
+            fill: var(--card-bg) !important;
+            stroke: var(--page-border) !important;
+            stroke-width: 0.5px !important;
+        }
+        .mermaid .quadrant-line-x,
+        .mermaid .quadrant-line-y {
+            stroke: var(--page-border) !important;
+            stroke-width: 1.5px !important;
+        }
+        .mermaid .quadrant-labels text {
+            fill: var(--page-text-strong) !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 700 !important;
+            font-size: 8pt !important;
+        }
+        .mermaid .quadrant-point {
+            fill: var(--spotify-green) !important;
+            stroke: var(--spotify-green-hover) !important;
+            stroke-width: 1px !important;
+        }
+        .mermaid .quadrant-point-label text {
+            fill: var(--page-text) !important;
+            font-size: 7.5pt !important;
+            font-weight: 600 !important;
+        }
+
+        /* Micro-animations and transitions */
+        .toc-list li:hover {
+            border-bottom-color: var(--spotify-green);
+            transform: translateX(2px);
+            transition: all 0.2s ease;
+        }
+
+        /* Custom Premium SVG Roadmap Styling */
+        .roadmap-container {
+            width: 100%;
+            border: 1px solid var(--page-border);
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0 10px 0;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+        .roadmap-container svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .roadmap-axis-text {
+            fill: var(--page-text);
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+        }
+        .roadmap-axis-year {
+            fill: var(--page-text-strong);
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .roadmap-grid-line {
+            stroke: var(--page-border);
+            stroke-width: 0.8px;
+            stroke-dasharray: 4,4;
+        }
+        .roadmap-phase-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .roadmap-phase1-title {
+            fill: var(--spotify-green);
+        }
+        .roadmap-phase2-title {
+            fill: var(--page-text-strong);
+            opacity: 0.85;
+        }
+        .roadmap-phase3-title {
+            fill: var(--page-text-strong);
+            opacity: 0.85;
+        }
+        .roadmap-bar-text {
+            fill: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .roadmap-milestone-text {
+            fill: var(--page-text-strong);
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .roadmap-milestone-shape {
+            fill: var(--spotify-green);
+        }
+        .roadmap-legend-text {
+            fill: var(--page-text);
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+        }
+
+        /* Print Media Stylesheet */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 10mm 15mm 10mm 15mm;
+            }
+            
+            body {
+                background-color: #FFFFFF !important;
+                color: #1F2937 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .screen-header, .instructions-panel {
+                display: none !important;
+            }
+            
+            .document-wrapper {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            .page-container {
+                width: 100% !important;
+                height: 277mm !important; /* Perfect fit for A4 height with 10mm top/bottom margins */
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin-bottom: 0 !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                background-color: #FFFFFF !important;
+            }
+            
+            .page-container:last-child {
+                page-break-after: avoid !important;
+                break-after: auto !important;
+            }
+            
+            .card {
+                background-color: #FAFBFD !important;
+                box-shadow: none !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .header-banner {
+                background: linear-gradient(135deg, #191414 0%, #154523 50%, #1DB954 100%) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            table {
+                background-color: #FAFBFD !important;
+                box-shadow: none !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            th {
+                background-color: #191414 !important;
+                color: #FFFFFF !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN-ONLY HEADER CONTROL BAR -->
+    <div class="screen-header">
+        <h1><span>Spotify</span> Data Governance Implementation • Livrable 3</h1>
+        <div class="controls-group">
+            <button class="btn btn-secondary" id="theme-toggle-btn" onclick="toggleTheme()">Mode Sombre Spotify 🌙</button>
+            <button class="btn" onclick="window.print()">Exporter en PDF 🖨️</button>
+        </div>
+    </div>
+
+    <!-- SCREEN-ONLY PRINTING INSTRUCTIONS -->
+    <div class="instructions-panel">
+        <h3>💡 Astuce d'impression haut de gamme</h3>
+        <ol>
+            <li>Cliquez sur le bouton <strong>"Exporter en PDF 🖨️"</strong> ci-dessus (ou faites <strong>Ctrl + P</strong> / <strong>Cmd + P</strong> dans votre navigateur).</li>
+            <li>Dans la fenêtre d'impression, choisissez l'imprimante <strong>"Enregistrer au format PDF"</strong>.</li>
+            <li>Déroulez l'onglet <em>"Plus de paramètres"</em> et cochez impérativement la case <strong>"Graphiques d'arrière-plan"</strong> (indispensable pour les dégradés de couleurs et les fonds de cartes).</li>
+            <li>Réglez les marges sur <strong>"Par défaut"</strong>. Vous obtiendrez un PDF d'une qualité d'édition exceptionnelle tenant sur <strong>exactement 7 pages parfaites</strong>.</li>
+        </ol>
+    </div>
+
+    <!-- MAIN DOCUMENT WRAPPER -->
+    <div class="document-wrapper">
+
+        <!-- ==================== PAGE 1 ==================== -->
+        <div class="page-container">
+            <div class="page-content">
+                <div class="header-banner">
+                    <h1>Livrable 3 : plan d'implémentation du programme et plan pilote (marketing)</h1>
+                    <div class="subtitle">Certification Architecte en IA (RNCP 38777 - bloc 1) • Feuille de route opérationnelle, RACI et gestion de crise</div>
+                    <div class="meta-grid">
+                        <div class="meta-item"><strong>Auteur :</strong> Caroline HEYMES</div>
+                        <div class="meta-item" style="text-align: center;"><strong>Date :</strong> 9 juin 2026</div>
+                        <div class="meta-item" style="text-align: right;"><strong>Cas d'étude :</strong> Spotify S.A.</div>
+                    </div>
+                </div>
+
+                <h2>Table des matières</h2>
+                <ul class="toc-list">
+                    <li><span>1. Introduction et vision stratégique</span> <span class="dots"></span> <span class="page-num">Page 1</span></li>
+                    <li><span>2. Feuille de route d'implémentation globale (18 mois)</span> <span class="dots"></span> <span class="page-num">Page 2</span></li>
+                    <li><span>3. Matrice RACI étendue et organisation des instances</span> <span class="dots"></span> <span class="page-num">Page 3</span></li>
+                    <li><span>4. Registre des risques du programme (risk register)</span> <span class="dots"></span> <span class="page-num">Page 4</span></li>
+                    <li><span>5. Plans de contingence techniques de haute gravité (Protocoles Alpha et Beta)</span> <span class="dots"></span> <span class="page-num">Page 5</span></li>
+                    <li><span>6. Plan pilote opérationnel : division marketing (mois 1 à 6)</span> <span class="dots"></span> <span class="page-num">Page 6</span></li>
+                    <li><span>7. Conclusion et recommandations</span> <span class="dots"></span> <span class="page-num">Page 7</span></li>
+                </ul>
+
+                <h2>1. Introduction et vision stratégique</h2>
+                <p>Déployer un programme de gouvernance des données au sein d'une organisation tournée vers le streaming en temps réel et l'IA comme Spotify requiert d'éviter les pièges d'une bureaucratie trop rigide. Le cadre mis en place doit accompagner l'innovation technique tout en garantissant un niveau élevé de sécurité et de conformité.</p>
+                
+                <p>Ce document présente le <strong>plan d'implémentation de la gouvernance sur 18 mois</strong>, conçu d'après la charte de données (Livrable 2), et détaille son application à travers un <strong>projet pilote au sein de la division marketing (mois 1 à 6)</strong>. Ce plan intègre :</p>
+                <ul>
+                    <li>Les standards de l'industrie, notamment le référentiel <strong>DAMA-DMBOK2</strong> pour la sémantique et la norme <strong>ISO/IEC 27001:2022</strong> pour la sécurité de l'information.</li>
+                    <li>Les exigences de conformité en matière d'<strong>accessibilité numérique (RGAA 4.1.2 et WCAG 2.2)</strong> pour les outils d'aide à la décision.</li>
+                    <li>Des <strong>protocoles de gestion de crise opérationnels</strong> devant faire face aux sinistres techniques et de données d'une gravité exceptionnelle.</li>
+                </ul>
+            </div>
+            <div class="page-footer">
+                <span>Spotify Technology S.A. • Plan d'implémentation de la gouvernance</span>
+                <span><strong>Page 1 / 7</strong></span>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 2 ==================== -->
+        <div class="page-container">
+            <div class="page-content">
+                <h2>2. Feuille de route d'implémentation globale (18 mois)</h2>
+                <p>La feuille de route s'étend sur 18 mois et s'organise en trois phases distinctes, permettant d'assurer l'adoption progressive et durable des nouvelles pratiques au sein de Spotify.</p>
+
+                <div class="roadmap-container">
+                    <svg viewBox="0 0 1200 650" xmlns="http://www.w3.org/2000/svg">
+                      <!-- Ligne de séparation supérieure -->
+                      <line x1="40" y1="70" x2="1160" y2="70" class="roadmap-grid-line" stroke-dasharray="none"/>
+                    
+                      <!-- Échelle de temps (Mois) - 1 mois = 50 unités -->
+                      <g text-anchor="middle">
+                        <!-- 2026 -->
+                        <text x="475" y="100" class="roadmap-axis-year">2026</text>
+                        <g class="roadmap-axis-text">
+                          <text x="225" y="125">JUIN</text>
+                          <text x="275" y="125">JUIL</text>
+                          <text x="325" y="125">AOÛT</text>
+                          <text x="375" y="125">SEPT</text>
+                          <text x="425" y="125">OCT</text>
+                          <text x="475" y="125">NOV</text>
+                          <text x="525" y="125">DÉC</text>
+                        </g>
+                        <!-- 2027 -->
+                        <text x="850" y="100" class="roadmap-axis-year">2027</text>
+                        <g class="roadmap-axis-text">
+                          <text x="575" y="125">JANV</text>
+                          <text x="625" y="125">FÉV</text>
+                          <text x="675" y="125">MARS</text>
+                          <text x="725" y="125">AVR</text>
+                          <text x="775" y="125">MAI</text>
+                          <text x="825" y="125">JUIN</text>
+                          <text x="875" y="125">JUIL</text>
+                          <text x="925" y="125">AOÛT</text>
+                          <text x="975" y="125">SEPT</text>
+                          <text x="1025" y="125">OCT</text>
+                          <text x="1075" y="125">NOV</text>
+                        </g>
+                      </g>
+                    
+                      <!-- Grille verticale -->
+                      <g class="roadmap-grid-line">
+                        <line x1="200" y1="140" x2="200" y2="580"/> <!-- Début -->
+                        <line x1="500" y1="140" x2="500" y2="580"/> <!-- Fin P1 -->
+                        <line x1="800" y1="140" x2="800" y2="580"/> <!-- Fin P2 -->
+                        <line x1="1100" y1="140" x2="1100" y2="580"/> <!-- Fin P3 -->
+                      </g>
+                    
+                      <!-- PHASE 1 : FONDATION (Vert) -->
+                      <g>
+                        <text x="40" y="170" class="roadmap-phase-title roadmap-phase1-title">PHASE 1 : FONDATION (M1-M6)</text>
+                        
+                        <!-- Initialisation : 3 mois (150px) -->
+                        <rect x="200" y="185" width="180" height="30" rx="5" fill="#1DB954"/> 
+                        <text x="210" y="204" class="roadmap-bar-text">Initialisation CoE &amp; recrutement</text>
+                        
+                        <!-- Déploiement : 5 mois (250px) -->
+                        <rect x="250" y="225" width="250" height="30" rx="5" fill="#1DB954"/>
+                        <text x="260" y="244" class="roadmap-bar-text">Déploiement outils (Collibra, OneTrust)</text>
+                        
+                        <!-- Pilote : 6 mois (300px) -->
+                        <rect x="200" y="265" width="300" height="30" rx="5" fill="#1DB954"/>
+                        <text x="210" y="284" class="roadmap-bar-text">Projet pilote division marketing</text>
+                      </g>
+                    
+                      <!-- PHASE 2 : INDUSTRIALISATION (M7-M12) -->
+                      <g>
+                        <text x="40" y="340" class="roadmap-phase-title roadmap-phase2-title">PHASE 2 : INDUSTRIALISATION (M7-M12)</text>
+                        
+                        <!-- Éco-conception : 3 mois (150px) -> Rouge car règlementaire -->
+                        <rect x="500" y="355" width="160" height="30" rx="5" fill="#E11D48"/>
+                        <text x="510" y="374" class="roadmap-bar-text">Eco-conception (RGAA/WCAG)</text>
+                        
+                        <!-- Déploiement R&D : 6 mois (300px) -->
+                        <rect x="500" y="395" width="300" height="30" rx="5" fill="#1DB954"/>
+                        <text x="510" y="414" class="roadmap-bar-text">Déploiement R&amp;D IA et finance</text>
+                        
+                        <!-- Data Literacy : 5 mois (250px) -->
+                        <rect x="550" y="435" width="250" height="30" rx="5" fill="#1DB954"/>
+                        <text x="560" y="454" class="roadmap-bar-text">Programme data literacy</text>
+                      </g>
+                    
+                      <!-- PHASE 3 : OPTIMISATION (M13-M18) -->
+                      <g>
+                        <text x="40" y="510" class="roadmap-phase-title roadmap-phase3-title">PHASE 3 : OPTIMISATION (M13-M18)</text>
+                        
+                        <!-- Audits : 6 mois (300px) -->
+                        <rect x="800" y="525" width="300" height="30" rx="5" fill="#E11D48"/>
+                        <text x="810" y="544" class="roadmap-bar-text">Audits de conformité (ISO/RGPD)</text>
+                        
+                        <!-- Automatisation : 4 mois (200px) -->
+                        <rect x="900" y="565" width="200" height="30" rx="5" fill="#1DB954"/>
+                        <text x="910" y="584" class="roadmap-bar-text">Automatisation IA (self-service)</text>
+                        
+                        <!-- Milestone final -->
+                        <path d="M 1100 535 L 1115 550 L 1100 565 L 1085 550 Z" class="roadmap-milestone-shape" />
+                        <text x="1120" y="555" class="roadmap-milestone-text">Maturité 4</text>
+                      </g>
+                    
+                      <!-- Légende -->
+                      <g class="roadmap-legend-text">
+                        <rect x="900" y="30" width="15" height="15" rx="3" fill="#1DB954"/>
+                        <text x="925" y="42">Déploiement / Acculturation</text>
+                        <rect x="1040" y="30" width="15" height="15" rx="3" fill="#E11D48"/>
+                        <text x="1065" y="42">Critique / Réglementaire</text>
+                      </g>
+                    </svg>
+                </div>
+
+                <div class="grid-3col" style="margin-top: 8px;">
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">Phase 1 : Fondation (M1-M6)</span></div>
+                        <p><strong>Objectif :</strong> Structurer les bases humaines et techniques, puis démontrer la valeur du programme via le pilote.</p>
+                        <ul>
+                            <li>Recrutement opérationnel et constitution du CoE (CDO, DPO, architectes de données).</li>
+                            <li>Acquisition et déploiement initial des solutions (Collibra, Talend, OneTrust).</li>
+                            <li>Lancement du projet pilote de la division marketing.</li>
+                            <li>Cartographie sémantique initiale et lignage des données de la zone pilote.</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">Phase 2 : Industrialisation (M7-M12)</span></div>
+                        <p><strong>Objectif :</strong> Déployer le cadre sur d'autres divisions clés et intégrer les standards d'accessibilité numérique.</p>
+                        <ul>
+                            <li>Extension du cadre aux divisions <strong>R&D IA</strong> et <strong>finance</strong> (certifiée PCI-DSS).</li>
+                            <li>Mise en conformité <strong>RGAA 4.1.2 et WCAG 2.2</strong> des tableaux de bord (Tableau, Looker) et catalogues.</li>
+                            <li>Déploiement du programme d'acculturation sémantique (Data Literacy Program) pour les métiers.</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">Phase 3 : Optimisation (M13-M18)</span></div>
+                        <p><strong>Objectif :</strong> Automatiser les contrôles et viser l'excellence opérationnelle certifiée.</p>
+                        <ul>
+                            <li>Audits bi-annuels de conformité et de sécurité (ISO/IEC 27001:2022 et RGPD).</li>
+                            <li>Suivi automatisé du lignage (*data lineage*) via l'analyse des requêtes de production.</li>
+                            <li>Évaluation finale ciblant le **niveau 4 de maturité de Gartner** (gouvernance intégrée).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Spotify Technology S.A. • Plan d'implémentation de la gouvernance</span>
+                <span><strong>Page 2 / 7</strong></span>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 3 ==================== -->
+        <div class="page-container">
+            <div class="page-content">
+                <h2>3. Matrice RACI étendue et organisation des instances</h2>
+                <p>Pour délimiter précisément les rôles et éviter les ambiguïtés opérationnelles, Spotify utilise une matrice RACI étendue appliquée à neuf chantiers majeurs de la gouvernance.</p>
+                
+                <h3 style="margin-top: 4px; margin-bottom: 4px;">Description des instances et des rôles</h3>
+                <div class="grid-2col" style="margin-bottom: 6px; font-size: 7.2pt;">
+                    <div class="card">
+                        <p style="margin-bottom: 2px;"><strong>CDO :</strong> Chief Data Officer (pilote stratégique data).</p>
+                        <p style="margin-bottom: 2px;"><strong>DPO :</strong> Data Protection Officer (garant de la vie privée/RGPD).</p>
+                        <p style="margin-bottom: 0;"><strong>Comité (DGC) :</strong> Data Governance Committee (arbitre central).</p>
+                    </div>
+                    <div class="card">
+                        <p style="margin-bottom: 2px;"><strong>Data Owner (DO) :</strong> Propriétaire métier (directeurs de domaines).</p>
+                        <p style="margin-bottom: 2px;"><strong>Data Steward (DS) :</strong> Gestionnaire opérationnel sémantique.</p>
+                        <p style="margin-bottom: 2px;"><strong>Data Custodian (DC) :</strong> Gardien de l'infrastructure physique.</p>
+                        <p style="margin-bottom: 0;"><strong>Data Engineer (DE) :</strong> Développeur des pipelines de données.</p>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 33%;">Chantiers de gouvernance</th>
+                            <th style="width: 9%;">CDO</th>
+                            <th style="width: 9%;">DPO</th>
+                            <th style="width: 10%;">Comité</th>
+                            <th style="width: 10%;">DO</th>
+                            <th style="width: 10%;">DS</th>
+                            <th style="width: 10%;">DC</th>
+                            <th style="width: 9%;">DE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. Définition des politiques et de la charte</td>
+                            <td><span class="raci-badge raci-a">A</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                        </tr>
+                        <tr>
+                            <td>2. Validation du modèle de maturité</td>
+                            <td><span class="raci-badge raci-a">A</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                        </tr>
+                        <tr>
+                            <td>3. Catalogage et métadonnées (Collibra)</td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-a">A</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                        </tr>
+                        <tr>
+                            <td>4. Contrôle qualité et nettoyage de données</td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-a">A</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                        </tr>
+                        <tr>
+                            <td>5. Analyses d'impact (AIPD / PIA)</td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-a">A</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                        </tr>
+                        <tr>
+                            <td>6. Gestion des habilitations et accès</td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-a">A</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                        </tr>
+                        <tr>
+                            <td>7. Intégration de l'accessibilité (RGAA)</td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-a">A</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                        </tr>
+                        <tr>
+                            <td>8. Exécution des purges et anonymisation</td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-a">A</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-c">C</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                        </tr>
+                        <tr>
+                            <td>9. Activation du protocole de crise</td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-a">A</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-i">I</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                            <td><span class="raci-badge raci-r">R</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="card" style="padding: 6px 10px; margin-top: 4px;">
+                    <p style="font-size: 7.2pt; font-weight: 700; color: var(--page-text-strong); margin-bottom: 2px;">Légende du RACI :</p>
+                    <div style="display: flex; gap: 15px; font-size: 6.8pt; color: var(--text-secondary-light);">
+                        <span><span class="raci-badge raci-r">R</span> <strong>Responsible :</strong> réalise opérationnellement la tâche.</span>
+                        <span><span class="raci-badge raci-a">A</span> <strong>Accountable :</strong> approuve et endosse la responsabilité finale.</span>
+                        <span><span class="raci-badge raci-c">C</span> <strong>Consulted :</strong> apporte son avis ou expertise en amont.</span>
+                        <span><span class="raci-badge raci-i">I</span> <strong>Informed :</strong> tenu informé du statut de la tâche.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Spotify Technology S.A. • Plan d'implémentation de la gouvernance</span>
+                <span><strong>Page 3 / 7</strong></span>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 4 ==================== -->
+        <div class="page-container">
+            <div class="page-content">
+                <h2>4. Registre des risques du programme</h2>
+                <p>Le déploiement de ce programme présente des risques d'adoption culturelle, d'organisation réglementaire et d'intégration technique qu'il convient de mitiger par des actions claires.</p>
+
+                <div class="mermaid">
+quadrantChart
+    title "Matrice des risques : probabilité vs impact"
+    x-axis "Faible probabilité" --> "Haute probabilité"
+    y-axis "Faible impact" --> "Fort impact"
+    quadrant-1 "Risques modérés"
+    quadrant-2 "Risques critiques (prioritaires)"
+    quadrant-3 "Risques négligeables"
+    quadrant-4 "Risques d'adoption (culturels)"
+    "Risque 1 : Résistance culturelle" : [0.75, 0.65]
+    "Risque 2 : Goulot d'étranglement DPO" : [0.45, 0.75]
+    "Risque 3 : Silos de données persistants" : [0.60, 0.55]
+    "Risque 4 : Régression RGAA sur outils BI" : [0.35, 0.80]
+                </div>
+
+                <div class="grid-2col" style="margin-top: 8px;">
+                    <div class="card" style="border-left: 3px solid #EF4444;">
+                        <div class="card-header">
+                            <span class="card-title">1. Résistance culturelle des Squads R&D</span>
+                            <span class="badge-role badge-biz" style="background-color: #EF4444; color: white;">Prob : 4/5 | Imp : 3/5</span>
+                        </div>
+                        <p style="font-weight: 500; margin-bottom: 2px;">"La gouvernance ralentit le déploiement de l'IA"</p>
+                        <p><strong>Conséquence :</strong> Contournement des règles de catalogage, stockage de données d'entraînement d'IA hors des environnements contrôlés.</p>
+                        <p><strong>Mitigation :</strong> Établir un réseau d'ambassadeurs (*Data Champions*) ; prouver que le catalogue accélère l'accès de 40% ; intégrer la gouvernance dans les OKR d'équipes.</p>
+                    </div>
+                    <div class="card" style="border-left: 3px solid #F59E0B;">
+                        <div class="card-header">
+                            <span class="card-title">2. Goulot d'étranglement réglementaire</span>
+                            <span class="badge-role badge-biz" style="background-color: #F59E0B; color: white;">Prob : 3/5 | Imp : 4/5</span>
+                        </div>
+                        <p style="font-weight: 500; margin-bottom: 2px;">"Surchauffe du DPO sur les analyses d'impact (AIPD)"</p>
+                        <p><strong>Conséquence :</strong> Ralentissement du déploiement des nouvelles fonctionnalités de recommandation IA basées sur l'analyse comportementale.</p>
+                        <p><strong>Mitigation :</strong> Industrialiser les formulaires d'AIPD automatisés dans OneTrust ; déléguer la collecte sémantique initiale aux Data Stewards métiers.</p>
+                    </div>
+                    <div class="card" style="border-left: 3px solid #EF4444;">
+                        <div class="card-header">
+                            <span class="card-title">3. Silos technologiques persistants</span>
+                            <span class="badge-role badge-biz" style="background-color: #EF4444; color: white;">Prob : 4/5 | Imp : 3/5</span>
+                        </div>
+                        <p style="font-weight: 500; margin-bottom: 2px;">"Incompatibilité des outils métiers existants"</p>
+                        <p><strong>Conséquence :</strong> Impossibilité d'assurer une traçabilité complète de bout en bout (*lineage*), persistance d'erreurs de qualité en production.</p>
+                        <p><strong>Mitigation :</strong> Imposer l'utilisation d'API sémantiques standardisées pour tout achat/création d'outils ; revue d'architecture data obligatoire lors du cadrage.</p>
+                    </div>
+                    <div class="card" style="border-left: 3px solid #3B82F6;">
+                        <div class="card-header">
+                            <span class="card-title">4. Régression accessibilité BI (Non-Conformité)</span>
+                            <span class="badge-role badge-biz" style="background-color: #3B82F6; color: white;">Prob : 3/5 | Imp : 4/5</span>
+                        </div>
+                        <p style="font-weight: 500; margin-bottom: 2px;">"Tableaux de bord analytiques non conformes RGAA"</p>
+                        <p><strong>Conséquence :</strong> Exclusion des collaborateurs en situation de handicap, non-conformité face aux standards juridiques d'inclusion.</p>
+                        <p><strong>Mitigation :</strong> Diffuser un pack de modèles décisionnels pré-audités (contrastes adaptés, ARIA) ; test d'accessibilité obligatoire lors de la livraison.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Spotify Technology S.A. • Plan d'implémentation de la gouvernance</span>
+                <span><strong>Page 4 / 7</strong></span>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 5 ==================== -->
+        <div class="page-container">
+            <div class="page-content">
+                <h2>5. Plans de contingence techniques de haute gravité</h2>
+                <div class="callout-box" style="border-left-color: #EF4444; background-color: #FEF2F2; margin-bottom: 10px;">
+                    <p style="color: #991B1B !important;"><strong>[IMPORTANT]</strong> Face aux cyber-menaces et incidents matériels d'une gravité exceptionnelle, Spotify met en œuvre des protocoles techniques stricts de reprise d'activité (DRP) et de confinement immédiat.</p>
+                </div>
+
+                <h3>Protocole Alpha : incident de violation de données personnelles de masse</h3>
+                <p><strong>Scénario d'incident :</strong> Exfiltration cyber massive des e-mails, mots de passe hachés, identifiants et données de localisation de 10 millions d'abonnés Spotify (origine : clé Kubernetes fuitée ou faille applicative).</p>
+
+                <div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant SOC as Cyber Security (SOC)
+    participant CDO as CDO & CoE
+    participant DPO as DPO / Juridique
+    participant DE as Data Engineers
+    participant REG as Régulateurs (CNIL)
+    participant USR as Utilisateurs Impactés
+    
+    SOC->>CDO: Alerte intrusion & Fuite avérée
+    CDO->>DE: T0+2h : Isolement & Révocation clés API
+    DE-->>SOC: T0+4h : Environnement confiné et sécurisé
+    CDO->>DPO: T0+6h : Notification interne & Registre
+    DPO->>REG: T0+24h : Notification CNIL officielle
+    DPO->>USR: T0+48h : Notification individuelle de sécurité
+                </div>
+
+                <h3 style="margin-top: 10px; margin-bottom: 2px;">Procédure d'urgence pas-à-pas (Chronologie)</h3>
+                <div class="vertical-steps">
+                    <div class="vertical-step-item">
+                        <div class="vertical-step-badge">1</div>
+                        <div class="vertical-step-title">Phase d'alerte (T0 à T+2h)</div>
+                        <p class="vertical-step-text">Détection par le SOC d'un volume de trafic sortant anormal. Transmission immédiate au CDO et au DPO. Constitution instantanée de la cellule de crise cyber (CDO, DSI, DPO).</p>
+                    </div>
+                    <div class="vertical-step-item">
+                        <div class="vertical-step-badge">2</div>
+                        <div class="vertical-step-title">Confinement technique (T+2h à T+12h)</div>
+                        <p class="vertical-step-text">Les Data Engineers isolent le sous-réseau réseau affecté pour stopper la fuite. Révocation globale des clés API et rotation immédiate des certificats de production. Application d'un *hotfix* de sécurité.</p>
+                    </div>
+                    <div class="vertical-step-item">
+                        <div class="vertical-step-badge">3</div>
+                        <div class="vertical-step-title">Évaluation de la violation (T+12h à T+24h)</div>
+                        <p class="vertical-step-text">Le DPO et l'équipe SecOps mesurent la portée de l'attaque (champs volés, nombre précis de comptes concernés, risques d'usurpation). Inscription de l'événement dans le registre interne des violations.</p>
+                    </div>
+                    <div class="vertical-step-item">
+                        <div class="vertical-step-badge">4</div>
+                        <div class="vertical-step-title">Notification légale de contrôle (T+24h à T+72h)</div>
+                        <p class="vertical-step-text">Le DPO soumet la déclaration officielle d'incident à la CNIL sous 72 heures au titre de l'article 33 du RGPD, détaillant l'origine, les impacts potentiels et les corrections prises.</p>
+                    </div>
+                    <div class="vertical-step-item">
+                        <div class="vertical-step-badge">5</div>
+                        <div class="vertical-step-title">Notification et alerte des abonnés (T+24h à T+72h)</div>
+                        <p class="vertical-step-text">Envoi d'une notification individuelle transparente par email aux abonnés touchés : conseils de sécurité pour modifier le mot de passe, alertes anti-phishing, et ouverture d'une cellule support dédiée.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Spotify Technology S.A. • Plan d'implémentation de la gouvernance</span>
+                <span><strong>Page 5 / 7</strong></span>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 6 ==================== -->
+        <div class="page-container">
+            <div class="page-content">
+                <h3>Protocole Beta : reprise après sinistre de données et restauration KMS (DRP)</h3>
+                <p><strong>Scénario :</strong> Corruption accidentelle de la clé maîtresse (Master Encryption Key) Cloud KMS. Les tables de profils d'écoute deviennent illisibles, provoquant l'interruption mondiale de la recommandation de l'application client.</p>
+                
+                <div class="vertical-steps" style="margin-bottom: 12px;">
+                    <div class="vertical-step-item">
+                        <div class="vertical-step-badge">1</div>
+                        <div class="vertical-step-title">Déclaration de sinistre & Isolement (T0 à T+30min)</div>
+                        <p class="vertical-step-text">Le CDO déclare le sinistre technique de niveau 1. Les écritures du Data Lake sont suspendues. Les flux Kafka entrants sont automatiquement déviés vers un stockage tampon temporaire.</p>
+                    </div>
+                    <div class="vertical-step-item">
+                        <div class="vertical-step-badge">2</div>
+                        <div class="vertical-step-title">Restauration HSM et clé Cloud KMS (T+30min à T+2h)</div>
+                        <p class="vertical-step-text">Activation du module matériel Cloud HSM de secours. Application du **partage de secrets de Shamir** : convocation et accord physique de 3 administrateurs de clés sur 5 pour recréer la clé racine à partir d'une sauvegarde physique hors-ligne (*Air-Gapped Vault*).</p>
+                    </div>
+                    <div class="vertical-step-item">
+                        <div class="vertical-step-badge">3</div>
+                        <div class="vertical-step-title">Contrôle de déchiffrement & Intégrité (T+2h à T+4h)</div>
+                        <p class="vertical-step-text">Lancement de scripts de validation automatique de déchiffrement sur un panel d'abonnés tests. Validation de la signature cryptographique d'intégrité (hachage) des données restaurées.</p>
+                    </div>
+                    <div class="vertical-step-item">
+                        <div class="vertical-step-badge">4</div>
+                        <div class="vertical-step-title">Rétablissement et dépilage nominal (T+4h à T+8h)</div>
+                        <p class="vertical-step-text">Restauration des bases de profils (cible de perte de données - **RPO : 2h maximum**). Dépilage progressif des flux de données Kafka en tampon pour éviter la surcharge. Retour nominal de l'application cliente dans le monde entier (cible de récupération - **RTO : 8h maximum**).</p>
+                    </div>
+                </div>
+
+                <h2>6. Plan pilote opérationnel : division marketing (mois 1 à 6)</h2>
+                <p>Pour éprouver l'efficacité du cadre de gouvernance de Spotify avant son extension globale, la division marketing est choisie comme environnement pilote pour traiter les données prospects, de campagnes et de profils. Ce pilote s'inscrit dans la vision d'un écosystème décentralisé (*Data Mesh* en libre-service) capable de supporter un traitement massif atteignant des centaines de milliards d'événements par jour, tout en garantissant une visibilité centrale sur la santé technique et la traçabilité de chaque actif.</p>
+
+                <h3>6.1. Architecture technique du pipeline de données sécurisé</h3>
+                <p>Le logigramme ci-dessous schématise le parcours d'intégration des données d'acquisition publicitaire. Les contrôles sont intégrés nativement au flux des ingénieurs via le portail développeur centralisé **Backstage** et comparés en temps réel à des modèles de conformité (**Golden States**) :</p>
+
+                <div class="mermaid">
+flowchart TD
+    Src[1. Sources de Données <br> Facebook Ads, Google Ads, Registrations]
+    
+    subgraph Pipeline [Pipeline de Traitement - Talend / Spark]
+        Ingest[2. Ingestion & Validation Sémantique]
+        Mask[3. Chiffrement Colonne KMS / Pseudonymisation]
+        DQ[4. Audit de Qualité & Fleet Management]
+    end
+    
+    subgraph Stockage [Data Warehouse - BigQuery]
+        SecureDB[(5. Table de Production Chiffrée <br> KMS / Contrôle owner.yaml / Backstage)]
+    end
+    
+    subgraph Restitution [Visualisation & Business Intelligence]
+        Dashboard[6. Dashboards Tableau / Looker <br> Conformes WCAG 2.2 / RGAA]
+    end
+    
+    Backstage[(Portail Backstage <br> Golden States & owner.yaml)]
+    OneTrust[(OneTrust <br> Consentement & AIPD)]
+    Slack[(Slack <br> Sémantique Sociale & Experts)]
+
+    Src --> Ingest
+    Ingest --> Mask
+    Mask --> DQ
+    DQ --> SecureDB
+    SecureDB --> Dashboard
+    
+    Ingest -.->|Vérification Conformité| Backstage
+    Mask -.->|Règles de Chiffrement| Backstage
+    SecureDB -.->|Propriété owner.yaml| Backstage
+    SecureDB -.->|Registres des Consentements| OneTrust
+    Backstage -.->|Mise en relation Experts| Slack
+
+    class Src nodeDept
+    class SecureDB,Dashboard nodeCoe
+    class Ingest,Mask,DQ,Backstage,OneTrust,Slack nodeDept
+                </div>
+
+                <p style="font-size: 7.2pt; line-height: 1.25; margin-top: 4px; margin-bottom: 0;">Dans cette architecture, la gouvernance de flotte (*fleet management*) orchestre la conformité en continu : chaque pipeline de la division marketing est scanné en temps réel. S'il s'écarte du standard de référence (**Golden State**), les développeurs visualisent les écarts sur leur portail Backstage et disposent de trajectoires de correction guidées et automatiques. De plus, le catalogue de données associe chaque actif à un canal **Slack** spécifique, convertissant la découverte technique en une expérience collaborative basée sur la cartographie de l'expertise humaine en temps réel.</p>
+            </div>
+            <div class="page-footer">
+                <span>Spotify Technology S.A. • Plan d'implémentation de la gouvernance</span>
+                <span><strong>Page 6 / 7</strong></span>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 7 ==================== -->
+        <div class="page-container">
+            <div class="page-content">
+                <h3>6.2. Configurations outillées précises du pilote marketing</h3>
+                <div class="grid-2col" style="margin-bottom: 8px;">
+                    <div class="card">
+                        <p style="font-size: 7.5pt; font-weight: 700; color: var(--page-text-strong); margin-bottom: 2px;">A. Backstage (Portail développeur & conformité)</p>
+                        <ul style="padding-left: 12px; margin-bottom: 0;">
+                            <li style="font-size: 6.8pt; margin-bottom: 2px;"><strong>Fichiers `owner.yaml` :</strong> Déclare l'équipe responsable (ex. `squad-marketing-analytics`) et le domaine fonctionnel directement dans le dépôt Git.</li>
+                            <li style="font-size: 6.8pt; margin-bottom: 2px;"><strong>Plugin "Data Health" :</strong> Compare le code du pipeline aux standards du **Golden State** et propose des correctifs automatisés de conformité.</li>
+                            <li style="font-size: 6.8pt; margin-bottom: 0;"><strong>Plugin "Data Lineage" :</strong> Génère automatiquement la carte des dépendances techniques, de la collecte brute jusqu'aux tables de BigQuery.</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <p style="font-size: 7.5pt; font-weight: 700; color: var(--page-text-strong); margin-bottom: 2px;">B. Talend & Cloud KMS (Qualité et chiffrement)</p>
+                        <ul style="padding-left: 12px; margin-bottom: 0;">
+                            <li style="font-size: 6.8pt; margin-bottom: 2px;"><strong>Validation sémantique :</strong> Module *tDataQuality* pour valider à l'ingestion les formats de données (e-mails, numéros, codes pays ISO-3166-1).</li>
+                            <li style="font-size: 6.8pt; margin-bottom: 0;"><strong>Chiffrement KMS à la colonne :</strong> Cryptage asymétrique fort (AES-256) au repos des e-mails/téléphones au vol. Seuls les comptes IAM autorisés déchiffrent.</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <p style="font-size: 7.5pt; font-weight: 700; color: var(--page-text-strong); margin-bottom: 2px;">C. OneTrust & cycle de vie (Consentement & purge)</p>
+                        <ul style="padding-left: 12px; margin-bottom: 0;">
+                            <li style="font-size: 6.8pt; margin-bottom: 2px;"><strong>Registre de consentement :</strong> Statut opt-in/opt-out publicitaire propagé en direct comme règle d'accès au niveau des bases.</li>
+                            <li style="font-size: 6.8pt; margin-bottom: 0;"><strong>Purges par le code :</strong> Les appels de droit à l'oubli OneTrust transmettent des signaux API, purgeant BigQuery sous 48h. Suppression automatique des logs bruts inactifs après 24 mois.</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <p style="font-size: 7.5pt; font-weight: 700; color: var(--page-text-strong); margin-bottom: 2px;">D. Slack & sémantique sociale (Cartographie humaine)</p>
+                        <ul style="padding-left: 12px; margin-bottom: 0;">
+                            <li style="font-size: 6.8pt; margin-bottom: 2px;"><strong>Lien direct Backstage :</strong> Liaison dynamique d'un actif sémantique à un canal de discussion technique en direct (ex. `#data-help-marketing`).</li>
+                            <li style="font-size: 6.8pt; margin-bottom: 0;"><strong>Détection d'experts :</strong> Identification automatisée via Git des trois principaux contributeurs techniques récents, affichés comme experts.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>6.3. Indicateurs clés de performance (KPI) et métriques du pilote</h3>
+                <table style="margin-bottom: 8px;">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Catégorie</th>
+                            <th style="width: 45%;">Indicateur de performance (KPI)</th>
+                            <th style="width: 15%;">Objectif cible</th>
+                            <th style="width: 15%;">Fréquence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Qualité des données</strong></td>
+                            <td>Taux d'exhaustivité et de conformité des profils prospects</td>
+                            <td><strong>&gt; 98,5 %</strong></td>
+                            <td>Hebdomadaire</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Qualité des données</strong></td>
+                            <td>Taux de doublons identifiés dans la base marketing</td>
+                            <td><strong>&lt; 0,5 %</strong></td>
+                            <td>Mensuelle</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Catalogage</strong></td>
+                            <td>Taux d'actifs de données marketing documentés dans Collibra</td>
+                            <td><strong>100 %</strong></td>
+                            <td>Mensuelle</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Conformité & droits</strong></td>
+                            <td>Délai moyen de compilation et d'accès aux données (format JSON)</td>
+                            <td><strong>&lt; 48 heures</strong></td>
+                            <td>Temps réel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Conformité & droits</strong></td>
+                            <td>Délai d'exécution d'une demande d'effacement (droit à l'oubli)</td>
+                            <td><strong>&lt; 72 heures</strong></td>
+                            <td>Temps réel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Accessibilité</strong></td>
+                            <td>Proportion de rapports BI marketing conformes au RGAA 4.1.2</td>
+                            <td><strong>100 %</strong></td>
+                            <td>Trimestrielle</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>7. Conclusion et recommandations</h2>
+                <p>Ce plan d'implémentation opérationnel pose les bases méthodologiques attendues d'un cadre de gouvernance robuste. Il garantit la qualité de nos données tout en accompagnant l'élan d'innovation technologique de Spotify.</p>
+                
+                <h3 style="margin-top: 4px; margin-bottom: 4px;">Recommandations clés pour la soutenance orale :</h3>
+                <div class="grid-3col" style="font-size: 7pt; margin-bottom: 0;">
+                    <div class="card" style="border-top: 3px solid var(--spotify-green);">
+                        <p><strong>1. Valoriser le ROI :</strong> Expliquez au jury qu'une base de données prospects exempte de doublons ou d'erreurs réduit de 15% le gaspillage publicitaire (Infonomics).</p>
+                    </div>
+                    <div class="card" style="border-top: 3px solid var(--spotify-green);">
+                        <p><strong>2. Appuyer sur la résilience :</strong> L'existence de **plans de secours cyber formalisés (Critère 2.5)** protège Spotify des sanctions du RGPD (jusqu'à 4% du CA mondial).</p>
+                    </div>
+                    <div class="card" style="border-top: 3px solid var(--spotify-green);">
+                        <p><strong>3. Promouvoir l'accessibilité :</strong> La mise en conformité des rapports BI au **RGAA/WCAG** favorise l'inclusion et enrichit le vivier de talents de la R&D.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Spotify Technology S.A. • Plan d'implémentation de la gouvernance</span>
+                <span><strong>Page 7 / 7</strong></span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MAIN JAVASCRIPT FOR DYNAMIC THEME AND COMPILATION -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+
+        // Toggle Theme Script
+        function toggleTheme() {
+            const root = document.documentElement;
+            const currentBg = root.style.getPropertyValue('--page-bg').trim();
+            const btn = document.getElementById('theme-toggle-btn');
+            
+            if (currentBg === '#121212' || currentBg === 'rgb(18, 18, 18)') {
+                // Switch to Light/Print look
+                root.style.setProperty('--page-bg', '#FFFFFF');
+                root.style.setProperty('--page-text', '#1F2937');
+                root.style.setProperty('--page-text-strong', '#111827');
+                root.style.setProperty('--page-border', '#E5E7EB');
+                root.style.setProperty('--card-bg', '#FAFBFD');
+                root.style.setProperty('--card-shadow', '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)');
+                root.style.setProperty('--header-gradient', 'linear-gradient(135deg, #191414 0%, #154523 50%, #1DB954 100%)');
+                
+                // Mermaid variables in Light Mode
+                root.style.setProperty('--mermaid-coe-bg', '#E0E7FF');
+                root.style.setProperty('--mermaid-coe-stroke', '#4F46E5');
+                root.style.setProperty('--mermaid-coe-text', '#312E81');
+                root.style.setProperty('--mermaid-dept-bg', '#F1F5F9');
+                root.style.setProperty('--mermaid-dept-stroke', '#475569');
+                root.style.setProperty('--mermaid-dept-text', '#1E293B');
+                
+                btn.innerText = 'Mode Sombre Spotify 🌙';
+                btn.style.backgroundColor = '';
+                btn.style.color = '';
+            } else {
+                // Switch to Spotify Premium Dark look
+                root.style.setProperty('--page-bg', '#121212');
+                root.style.setProperty('--page-text', '#E2E8F0');
+                root.style.setProperty('--page-text-strong', '#FFFFFF');
+                root.style.setProperty('--page-border', '#2A2A2A');
+                root.style.setProperty('--card-bg', '#191414');
+                root.style.setProperty('--card-shadow', '0 10px 25px rgba(0, 0, 0, 0.5)');
+                root.style.setProperty('--header-gradient', 'linear-gradient(135deg, #000000 0%, #0d2a16 50%, #1DB954 100%)');
+                
+                // Mermaid variables in Dark Mode
+                root.style.setProperty('--mermaid-coe-bg', '#1E1B4B');
+                root.style.setProperty('--mermaid-coe-stroke', '#818CF8');
+                root.style.setProperty('--mermaid-coe-text', '#E0E7FF');
+                root.style.setProperty('--mermaid-dept-bg', '#0F172A');
+                root.style.setProperty('--mermaid-dept-stroke', '#94A3B8');
+                root.style.setProperty('--mermaid-dept-text', '#F1F5F9');
+                
+                btn.innerText = 'Mode Impression Clair ☀️';
+                btn.style.backgroundColor = '#FFFFFF';
+                btn.style.color = '#000000';
+            }
+        }
+    </script>
+</body>
+</html>

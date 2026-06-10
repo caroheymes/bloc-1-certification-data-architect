@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rapport Maturité Spotify - Caroline Heymes</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { useMaxWidth: true } });
+    </script>
+    <style>
+        @page { margin: 0; }
+        @page portrait-page { size: A4 portrait; margin: 10mm; }
+        @page landscape-page { size: A4 landscape; margin: 10mm; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 8.5pt;
+            line-height: 1.2;
+            color: #333;
+            margin: 0;
+        }
+
+        .page-portrait { page: portrait-page; width: 190mm; margin: auto; page-break-after: always; }
+        .page-landscape { page: landscape-page; width: 277mm; margin: auto; }
+
+        h1 { font-size: 16pt; color: #1DB954; margin: 0; border-bottom: 2px solid #1DB954; }
+        h2 { font-size: 12pt; color: #000; margin: 12px 0 6px 0; border-bottom: 1px solid #1DB954; }
+        h3 { font-size: 10pt; margin: 8px 0 4px 0; }
+
+        p { margin: 0 0 5px 0; text-align: justify; }
+        ul { margin: 0 0 5px 0; padding-left: 15px; }
+
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 7.5pt; }
+        th { background: #1DB954; color: white; padding: 5px; text-align: left; border: 1px solid #16a34a; }
+        td { border: 1px solid #ddd; padding: 4px; vertical-align: top; }
+        tr:nth-child(even) { background: #f9f9f9; }
+
+        .mermaid { width: 100% !important; margin: 10px 0; }
+        .mermaid svg { width: 100% !important; height: auto; }
+
+        /* Style spécifique pour le grand tableau de la section 4 */
+        .section4-table td { font-size: 7pt; line-height: 1.1; }
+        .score-cell { font-weight: bold; text-align: center; background: #eee; }
+
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-portrait">
+    <h1>Livrable 1 : rapport d'évaluation de la maturité des données de Spotify</h1>
+    <p><strong>Auteur :</strong> Caroline Heymes | <strong>Date :</strong> 9 juin 2026</p>
+    <hr>
+
+    <h2>1. Introduction et objectifs du diagnostic</h2>
+    <p>Ce diagnostic évalue la maturité des données de Spotify Technology S.A. en se fondant notamment sur les enseignements de sa transition stratégique historique amorcée en 2020. L'objectif est de concevoir un cadre de gouvernance adapté à un modèle de streaming à l'échelle mondiale et à des ambitions avancées en matière d'intelligence artificielle.</p>
+
+    <h3>Le contexte économique et technologique</h3>
+    <p>Avec plus de 450 millions d'utilisateurs actifs, dont 200 millions d'abonnés Premium répartis dans 180 pays, Spotify gère quotidiennement des volumes de données de l'ordre de l'exaoctet, représentant le traitement de plus de <strong>500 milliards d'événements par jour</strong>. Sa position de leader repose historiquement sur sa capacité à personnaliser l'expérience utilisateur grâce à des modèles d'apprentissage automatique sophistiqués comme <em>Discover Weekly</em> ou <em>Daily Mix</em>.</p>
+
+    <h3>Les limites de l'hyper-croissance et de la migration cloud</h3>
+    <p>Le passage intégral au cloud et l'explosion massive du nombre de jeux de données en 2020 ont mis en évidence la fragilité du modèle décentralisé traditionnel. La liberté historique accordée aux équipes d'ingénierie autonomes (les "Squads") a engendré une forte fragmentation : prolifération de ressources techniques sans propriétaire identifié (*orphan datasets*), incohérences sémantiques majeures, duplication inutile des pipelines de calcul (Green IT dégradé), et difficultés d'exploration sémantique pour les analystes métiers. Ce cloisonnement fragilise à la fois la qualité des modèles d'IA, la conformité réglementaire de masse (RGPD, CCPA, PDPA) et l'accessibilité globale des données.</p>
+
+    <h2>2. Méthodologie d'évaluation (modèles Gartner et DAMA)</h2>
+    <div class="mermaid">
+    graph LR
+        N1["1. Aware<br>(Conscient)"] --> N2["2. Reactive<br>(Réactif)"]
+        N2 --> N3["3. Proactive<br>(Proactif)"]
+        N3 --> N4["4. Managed<br>(Géré)"]
+        N4 --> N5["5. Effective<br>(Efficace)"]
+        style N1 fill:#EF4444,stroke:#333,stroke-width:1px,color:#fff
+        style N2 fill:#F97316,stroke:#333,stroke-width:1px,color:#fff
+        style N3 fill:#F59E0B,stroke:#333,stroke-width:1px,color:#fff
+        style N4 fill:#3B82F6,stroke:#333,stroke-width:1px,color:#fff
+        style N5 fill:#10B981,stroke:#333,stroke-width:1px,color:#fff
+    </div>
+    <p style="font-size:8pt"><em>Niveau 1 : Informel | Niveau 2 : Crises | Niveau 3 : Processus locaux | Niveau 4 : Politiques globales | Niveau 5 : Automatisé & Valeur.</em></p>
+
+    <h2>3. Tableau de synthèse de la maturité</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Dimension de la gouvernance</th>
+                <th>Score</th>
+                <th>Cible</th>
+                <th>Gap</th>
+                <th>Risque principal associé à l'inaction</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Gouvernance des données</strong></td><td class="score-cell">2</td><td class="score-cell">4</td><td class="score-cell">+2</td><td>Décisions stratégiques incohérentes, conflits d'autorité.</td></tr>
+            <tr><td><strong>Qualité des données</strong></td><td class="score-cell">3</td><td class="score-cell">4</td><td class="score-cell">+1</td><td>Dégradation des recommandations de l'IA (sauts de chansons).</td></tr>
+            <tr><td><strong>Architecture des données</strong></td><td class="score-cell">3</td><td class="score-cell">4</td><td class="score-cell">+1</td><td>Prolifération des silos, coûts cloud incontrôlés.</td></tr>
+            <tr><td><strong>Conformité réglementaire</strong></td><td class="score-cell">3</td><td class="score-cell">5</td><td class="score-cell">+2</td><td>Risque d'amende s'levant à 4 % du chiffre d'affaires mondial.</td></tr>
+            <tr><td><strong>Utilisation et accessibilité</strong></td><td class="score-cell">3</td><td class="score-cell">4</td><td class="score-cell">+1</td><td>Ralentissement des décisions, goulots d'étranglement.</td></tr>
+            <tr><td><strong>Sécurité des données</strong></td><td class="score-cell">4</td><td class="score-cell">5</td><td class="score-cell">+1</td><td>Violation de données personnelles de masse.</td></tr>
+            <tr><td><strong>Culture de la donnée</strong></td><td class="score-cell">3</td><td class="score-cell">4</td><td class="score-cell">+1</td><td>Erreurs d'analyses métiers, résistance forte.</td></tr>
+            <tr><td><strong>Intégration des données</strong></td><td class="score-cell">2</td><td class="score-cell">4</td><td class="score-cell">+2</td><td>Absence de vision à 360° de l'utilisateur.</td></tr>
+            <tr><td><strong>Analyses et BI</strong></td><td class="score-cell">5</td><td class="score-cell">5</td><td class="score-cell">0</td><td>Perte de compétitivité face aux autres services.</td></tr>
+        </tbody>
+    </table>
+
+    
+    <p>Conclusion : L'évaluation de la maturité des données chez Spotify met en évidence un paradoxe fréquent chez les géants de la technologie : une excellence opérationnelle sur la couche de valorisation finale (les analyses et l'IA, notées 5/5), contrastant avec des fragilités structurelles sur les fondations de base (gouvernance et intégration, notées 2/5). Ce déséquilibre expose l'entreprise à des risques cyber, juridiques et financiers non négligeables, tout en limitant la performance de ses algorithmes en raison de la qualité inconstante des données à la source. La structuration immédiate d'un cadre unifié de gouvernance des données, piloté par un Centre d'Excellence (CoE) indépendant, est la réponse idoine.</p>
+</div>
+
+<div class="page-landscape">
+    <h2>4. Analyse détaillée</h2>
+    <table class="section4-table">
+        <thead>
+            <tr>
+                <th style="width:12%">Dimension</th>
+                <th style="width:6%">Score</th>
+                <th style="width:20%">Observations et diagnostic</th>
+                <th style="width:18%">Atouts</th>
+                <th style="width:18%">Limites et risques</th>
+                <th style="width:26%">Actions correctives prioritaires</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 4.1 -->
+            <tr>
+                <td><strong>4.1. Gouvernance</strong></td>
+                <td class="score-cell">Niveau 2</td>
+                <td>Fragmentation des politiques due à l'indépendance des Squads. Gestion opérationnelle éclatée menant à une accumulation d'actifs orphelins ("orphan datasets").</td>
+                <td><ul><li>CDO & DPO d'envergure globale.</li><li>Transition pour intégrer la gouvernance sans bureaucratie externe.</li></ul></td>
+                <td><ul><li>Absence de comité fédéré pour arbitrer les litiges.</li><li>Risque d'anarchie technique et pipelines redondants.</li></ul></td>
+                <td><ul><li>Créer un comité de gouvernance fédéré.</li><li>Propriété via `owner.yaml` sous Git.</li><li>Cartographie via **Backstage**.</li><li>Clarifier rôles Produit (sémantique) vs Engineering (exécution).</li></ul></td>
+            </tr>
+            <!-- 4.2 -->
+            <tr>
+                <td><strong>4.2. Qualité</strong></td>
+                <td class="score-cell">Niveau 3</td>
+                <td>Facturation maîtrisée, mais métadonnées musicales et navigation irrégulières. Erreurs polluant le lac de données.</td>
+                <td><ul><li>Surveillance étroite des transactions.</li><li>Concept de gouvernance de flotte (*fleet management*) et **Golden States**.</li></ul></td>
+                <td><ul><li>Dégradation expérience utilisateur (sauts de pistes).</li><li>Risque de goulots d'étranglement si validation manuelle.</li></ul></td>
+                <td><ul><li>Alignement continu sur **Golden States**.</li><li>Indicateurs de santé (*data health*) dans **Backstage**.</li><li>Rejet auto via *Schema-on-Write* (Kafka/Avro).</li></ul></td>
+            </tr>
+            <!-- 4.3 -->
+            <tr>
+                <td><strong>4.3. Architecture</strong></td>
+                <td class="score-cell">Niveau 3</td>
+                <td>Infrastructure GCP/Temps réel puissante. Fragmentation suite à migration cloud nuisant à la traçabilité.</td>
+                <td><ul><li>Capacité exaoctet.</li><li>Catalogue intelligent et Data Mesh en libre-service.</li></ul></td>
+                <td><ul><li>Fossé sémantique entre données et exploitation.</li><li>Traçabilité (*lineage*) complexe lors des pannes.</li></ul></td>
+                <td><ul><li>Catalogue vers un moteur de recommandation intelligent.</li><li>Sémantique sociale (couplage **Slack**).</li><li>Lignage automatique de bout en bout.</li></ul></td>
+            </tr>
+            <!-- 4.4 -->
+            <tr>
+                <td><strong>4.4. Conformité</strong></td>
+                <td class="score-cell">Niveau 3</td>
+                <td>Soumis au RGPD, CCPA, PDPA. Défi opérationnel de suppression/extraction à l'échelle de l'exaoctet.</td>
+                <td><ul><li>Synergie Juridique/DPO.</li><li>Automatisation de la confidentialité liée au cycle de vie technique.</li></ul></td>
+                <td><ul><li>Risque de purges incomplètes dans les sauvegardes.</li><li>Amendes massives (4% CA) en cas d'incohérence.</li></ul></td>
+                <td><ul><li>Chiffrement KMS au niveau colonnes (PII).</li><li>Règles de rétention/suppression automatisées.</li><li>Fédérer les API avec **OneTrust**.</li></ul></td>
+            </tr>
+            <!-- 4.5 -->
+            <tr>
+                <td><strong>4.5. Accessibilité</strong></td>
+                <td class="score-cell">Niveau 3</td>
+                <td>Fluide pour profils techniques, mais difficile pour les opérationnels (marketing, finance).</td>
+                <td><ul><li>Accès direct BigQuery fluide.</li><li>Forte culture analytique R&D.</li></ul></td>
+                <td><ul><li>Dépendance des métiers envers l'ingénierie.</li><li>Délais d'extractions de plusieurs jours.</li><li>Erreurs d'interprétation.</li></ul></td>
+                <td><ul><li>Portail BI self-service (Looker/Tableau).</li><li>Documentation des termes métiers dans le catalogue central.</li></ul></td>
+            </tr>
+            <!-- 4.6 -->
+            <tr>
+                <td><strong>4.6. Sécurité</strong></td>
+                <td class="score-cell">Niveau 4</td>
+                <td>Dimension la plus mature. AES-256 et TLS 1.3. Respect PCI-DSS pour Premium.</td>
+                <td><ul><li>Chiffrement systématique repos/transit.</li><li>Conformité continue de facturation.</li><li>Gestion identité stricte.</li></ul></td>
+                <td><ul><li>Privilèges d'accès trop larges de certains ingénieurs sur tables PII (surface d'attaque).</li></ul></td>
+                <td><ul><li>Politique RBAC (moindre privilège).</li><li>Analyse logs temps réel via SIEM (**Splunk**).</li></ul></td>
+            </tr>
+            <!-- 4.7 -->
+            <tr>
+                <td><strong>4.7. Culture</strong></td>
+                <td class="score-cell">Niveau 3</td>
+                <td>Asymétrie culturelle. Très technique en R&D, mais besoin d'harmonisation sur l'éthique et la gouvernance.</td>
+                <td><ul><li>Excellence technique mondiale.</li><li>Conscience du besoin d'éducation interne.</li></ul></td>
+                <td><ul><li>Résistance des Squads si perçu comme administratif.</li><li>Asymétrie technique/produit sur le RGPD.</li></ul></td>
+                <td><ul><li>Programme transverse Engineering/Product Managers.</li><li>Formation cycle de vie obligatoire.</li><li>Ateliers d'acculturation sémantique.</li></ul></td>
+            </tr>
+            <!-- 4.8 -->
+            <tr>
+                <td><strong>4.8. Intégration</strong></td>
+                <td class="score-cell">Niveau 2</td>
+                <td>Point faible. Vision 360° utilisateur difficile (croisement manuel marketing/navigation/facturation).</td>
+                <td><ul><li>Pipelines temps réel locaux performants.</li></ul></td>
+                <td><ul><li>Frein à l'acquisition d'abonnés.</li><li>Coûts cloud et empreinte carbone élevés (duplications).</li></ul></td>
+                <td><ul><li>Pipeline transverse unifiant les domaines.</li><li>Outils modernes (Airflow/Talend) pour traçabilité.</li></ul></td>
+            </tr>
+            <!-- 4.9 -->
+            <tr>
+                <td><strong>4.9. Analyses & BI</strong></td>
+                <td class="score-cell">Niveau 5</td>
+                <td>Moteur de croissance. Discover Weekly et Spotify Wrapped sont des succès mondiaux.</td>
+                <td><ul><li>Expertise Machine Learning mondiale.</li><li>Donnée vue comme un produit stratégique.</li></ul></td>
+                <td><ul><li>Performance limitée par les silos et la qualité source.</li><li>Risques de biais éthiques.</li></ul></td>
+                <td><ul><li>Garantir l'explicabilité (XAI).</li><li>Connecter l'entraînement uniquement aux tables certifiées.</li></ul></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
