@@ -17,7 +17,7 @@ d'implémentation opérationnel des données appliqués au cas d'usage de **Spot
 
 
 
-## Présentation du Projet
+## Projet
 
 L'objectif de ce projet est de concevoir et de déployer un **cadre robuste de gouvernance des données** pour
 Spotify, structuré autour des meilleures pratiques du marché (**DAMA-DMBOK2**) et assurant une conformité stricte
@@ -29,7 +29,7 @@ concrétise par un **projet pilote de 6 mois** focalisé sur la **division marke
 publicitaire et gestion des consentements).
 
 
-## Organisation des Livrables
+## Organisation des livrables
 
 Le dépôt est structuré comme suit :
 
@@ -39,7 +39,7 @@ Le dépôt est structuré comme suit :
 * Analyse de l'état actuel (*As-Is*) et définition de la cible stratégique (*To-Be*).
 * *Formats disponibles :* `.md` (Markdown original) / `.pdf`.
 
-### [Livrable 2] Politique de Gouvernance & Charte de Données
+### [Livrable 2] Politique de gouvernance & charte de données
 * Définition de la charte de gouvernance des données, des principes fondamentaux et de l'organisation humaine du
 **Centre d'Excellence (CoE)**.
 * Mise en place des rôles opérationnels (CDO, DPO, Data Stewards, Data Owner, Data Custodians).
@@ -47,7 +47,7 @@ Le dépôt est structuré comme suit :
 outils de Business Intelligence.
 * *Formats disponibles :* `.md` / `.html` (Version interactive double-thème clair/sombre) / `.pdf`.
 
-### [Livrable 3] Plan d'Implémentation Globale & Plan Pilote
+### [Livrable 3] Plan d'implémentation globale & plan pilote
 * Feuille de route opérationnelle sur **18 mois** divisée en 3 phases (Fondation, Industrialisation,
 Optimisation).
 * Détail du **projet pilote marketing de 6 mois** (sources, ingestion, catalogage via Collibra, et consentement
@@ -58,18 +58,18 @@ via OneTrust).
 * *Formats disponibles :* `.md` / `.html` (Version interactive avec timeline vectorielle adaptative et diagrammes
 de crise) / `.pdf`.
 
-### [Livrable 4] Grille d'Évaluation de Conformité
+### [Livrable 4] Grille d'évaluation de conformité
 * Matrice d'audit de conformité technique et réglementaire.
 * *Formats disponibles :* `.xlsx` (Tableau Excel structuré).
 
-###  [Livrable 5] Soutenance de Certification
+###  [Livrable 5] Soutenance de certification
 * Support visuel synthétisant l'ensemble de la démarche d'architecture et de gouvernance pour la présentation
 orale devant le jury.
 * *Formats disponibles :* `.pptx` (Version Microsoft PowerPoint).
 
   ---
 
-## Stack Technique & Outils du Cadre Cible
+## Stack technique & outils du cadre cible
 
 Le projet intègre et documente l'architecture des solutions de gouvernance d'entreprise suivantes :
 * **Gouvernance & Métadonnées** : [Collibra Data Intelligence Cloud](https://www.collibra.com/)
@@ -81,18 +81,6 @@ des fichiers `owner.yaml`
 
   ---
 
-## Particularités techniques de ce Dépôt
-
-* **Feuille de Route Vectorielle Responsive** : Remplacement des diagrammes Gantt textuels standards par une
-frise chronologique vectorielle native SVG interactive. Elle est optimisée pour s'afficher harmonieusement en
-impression de qualité (fond clair) et s'adapter au thème d'écran (Mode sombre Spotify).
-* **Robustesse des Diagrammes Mermaid** : L'ensemble des diagrammes (flowcharts techniques, diagrammes de
-séquence de crise et matrice des risques) est optimisé pour les versions récentes du moteur de rendu Mermaid (v11.
-15.0+), garantissant l'absence d'erreurs de syntaxe sur GitHub et lors de la compilation.
-* **Mise en page CSS Paged Media** : Les livrables HTML intègrent des directives d'impression CSS haut de gamme
-pour forcer des sauts de page A4 nets, évitant les coupures de tableaux ou de paragraphes à cheval sur deux pages.
-
-  ---
 
 ## Auteur
 
