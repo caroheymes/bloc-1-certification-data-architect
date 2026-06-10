@@ -1,11 +1,11 @@
 # Spotify Data Governance & Architecture — Certification RNCP 38777 (Bloc 1)
 
-> **Projet de certification pour le titre d'Architecte en Intelligence Artificielle (RNCP 38777 - Bloc de
+**Projet de certification pour le titre d'Architecte en Intelligence Artificielle (RNCP 38777 - Bloc de
 compétences 1).**
-> Ce dépôt rassemble les livrables d'évaluation de la maturité, de la politique de gouvernance et du plan
+Ce dépôt rassemble les livrables d'évaluation de la maturité, de la politique de gouvernance et du plan
 d'implémentation opérationnel des données appliqués au cas d'usage de **Spotify Technology S.A.**
 
-  ---
+---
 
 
 ![Target](https://img.shields.io/badge/Target-Spotify-1DB954?style=for-the-badge&logo=spotify&logoColor=white)
@@ -70,7 +70,7 @@ orale devant le jury.
 
   ---
 
-## 🛠️ Stack Technique & Outils du Cadre Cible
+## Stack Technique & Outils du Cadre Cible
 
 Le projet intègre et documente l'architecture des solutions de gouvernance d'entreprise suivantes :
 * **Gouvernance & Métadonnées** : [Collibra Data Intelligence Cloud](https://www.collibra.com/)
@@ -82,7 +82,7 @@ des fichiers `owner.yaml`
 
   ---
 
-## Particularités Techniques de ce Dépôt
+## Particularités techniques de ce Dépôt
 
 * **Feuille de Route Vectorielle Responsive** : Remplacement des diagrammes Gantt textuels standards par une
 frise chronologique vectorielle native SVG interactive. Elle est optimisée pour s'afficher harmonieusement en
@@ -95,7 +95,7 @@ pour forcer des sauts de page A4 nets, évitant les coupures de tableaux ou de p
 
   ---
 
-## 👩‍💻 Auteur
+## Auteur
 
 * **Caroline HEYMES** — *Candidate à la Certification Architecte en IA (RNCP 38777)*
 ──────
