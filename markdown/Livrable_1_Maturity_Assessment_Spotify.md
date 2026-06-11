@@ -11,7 +11,7 @@
 ## Table des matières
 1. **Introduction et objectifs du diagnostic**
 2. **Méthodologie d'évaluation de la maturité (modèles Gartner et DAMA)**
-3. **Analyse détaillée des neuf dimensions cliniques**
+3. **Analyse détaillée des neuf dimensions**
    * *3.1. Gouvernance des données (data governance)*
    * *3.2. Qualité des données (data quality)*
    * *3.3. Architecture des données (data architecture)*
@@ -29,7 +29,7 @@
 
 ## 1. Introduction et objectifs du diagnostic
 
-Ce diagnostic évalue la maturité des données de Spotify Technology S.A. en se fondant notamment sur les enseignements cliniques de sa transition stratégique historique amorcée en 2020. L'objectif est de concevoir un cadre de gouvernance adapté à un modèle de streaming à l'échelle mondiale et à des ambitions avancées en matière d'intelligence artificielle.
+Ce diagnostic évalue la maturité des données de Spotify Technology S.A. en se fondant notamment sur les enseignements de sa transition stratégique historique amorcée en 2020. L'objectif est de concevoir un cadre de gouvernance adapté à un modèle de streaming à l'échelle mondiale et à des ambitions avancées en matière d'intelligence artificielle.
 
 ### Le contexte économique et technologique
 Avec plus de 450 millions d'utilisateurs actifs, dont 200 millions d'abonnés Premium répartis dans 180 pays, Spotify gère quotidiennement des volumes de données de l'ordre de l'exaoctet, représentant le traitement de plus de **500 milliards d'événements par jour**. Sa position de leader repose historiquement sur sa capacité à personnaliser l'expérience utilisateur grâce à des modèles d'apprentissage automatique sophistiqués comme *Discover Weekly* ou *Daily Mix*.
@@ -38,7 +38,7 @@ Avec plus de 450 millions d'utilisateurs actifs, dont 200 millions d'abonnés Pr
 Le passage intégral au cloud et l'explosion massive du nombre de jeux de données en 2020 ont mis en évidence la fragilité du modèle décentralisé traditionnel. La liberté historique accordée aux équipes d'ingénierie autonomes (les "Squads") a engendré une forte fragmentation : prolifération de ressources techniques sans propriétaire identifié (*orphan datasets*), incohérences sémantiques majeures, duplication inutile des pipelines de calcul (Green IT dégradé), et difficultés d'exploration sémantique pour les analystes métiers. Ce cloisonnement fragilise à la fois la qualité des modèles d'IA, la conformité réglementaire de masse (RGPD, CCPA, PDPA) et l'accessibilité globale des données.
 
 ### Objectifs de l'évaluation
-Ce document établit un état des lieux clinique et quantifié de la gestion des données chez Spotify sur neuf dimensions stratégiques. En positionnant chaque domaine sur l'échelle de maturité de Gartner (niveaux 1 à 5), nous définissons les bases d'un plan de remédiation pragmatique, aligné sur les exigences académiques et professionnelles d'un niveau bac+5.
+Ce document établit un état des lieux et quantifié de la gestion des données chez Spotify sur neuf dimensions stratégiques. En positionnant chaque domaine sur l'échelle de maturité de Gartner (niveaux 1 à 5), nous définissons les bases d'un plan de remédiation pragmatique, aligné sur les exigences académiques et professionnelles d'un niveau bac+5.
 
 ---
 
@@ -68,7 +68,7 @@ graph LR
 
 ---
 
-## 3. Analyse détaillée des neuf dimensions cliniques
+## 3. Analyse détaillée des neuf dimensions
 
 ### 3.1. Gouvernance des données (data governance)
 *   **Score actuel** : Niveau 2 (Reactive)

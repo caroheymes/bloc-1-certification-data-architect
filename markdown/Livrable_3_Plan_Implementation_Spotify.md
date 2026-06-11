@@ -174,7 +174,7 @@ quadrantChart
 ## 5. Plans de contingence techniques de haute gravité
 
 > [!IMPORTANT] 
-> LNécessité d'établir des plans de secours technique et de contingence face aux incidents cyber ou de corruption de données d'une gravité exceptionnelle.
+> Nécessité d'établir des plans de secours technique et de contingence face aux incidents cyber ou de corruption de données d'une gravité exceptionnelle.
 
 ---
 
