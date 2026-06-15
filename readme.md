@@ -33,8 +33,8 @@ publicitaire et gestion des consentements).
 
 Le dépôt est structuré comme suit :
 
-### [Livrable 1] Évaluation de la Maturité des Données (Maturity Assessment)
-* Évaluation sémantique et clinique détaillée des 9 dimensions clés de la gouvernance basées sur le référentiel
+### [Livrable 1] Évaluation de la maturité des données (maturity assessment)
+* Évaluation détaillée des 9 dimensions clés de la gouvernance basées sur le référentiel
 **DAMA**.
 * Analyse de l'état actuel (*As-Is*) et définition de la cible stratégique (*To-Be*).
 * *Formats disponibles :* `.md` (Markdown original) / `.pdf`.
@@ -48,8 +48,8 @@ outils de Business Intelligence.
 * *Formats disponibles :* `.md` / `.html` (Version interactive double-thème clair/sombre) / `.pdf`.
 
 ### [Livrable 3] Plan d'implémentation globale & plan pilote
-* Feuille de route opérationnelle sur **18 mois** divisée en 3 phases (Fondation, Industrialisation,
-Optimisation).
+* Feuille de route opérationnelle sur **18 mois** divisée en 3 phases (fondation, industrialisation,
+optimisation).
 * Détail du **projet pilote marketing de 6 mois** (sources, ingestion, catalogage via Collibra, et consentement
 via OneTrust).
 * Matrice **RACI** étendue des instances de décision et d'exécution.
@@ -63,8 +63,7 @@ de crise) / `.pdf`.
 * *Formats disponibles :* `.xlsx` (Tableau Excel structuré).
 
 ###  [Livrable 5] Soutenance de certification
-* Support visuel synthétisant l'ensemble de la démarche d'architecture et de gouvernance pour la présentation
-orale devant le jury.
+* Support de l'ensemble de la démarche d'architecture et de gouvernance
 * *Formats disponibles :* `.pptx` (Version Microsoft PowerPoint).
 
   ---
@@ -72,11 +71,11 @@ orale devant le jury.
 ## Stack technique & outils du cadre cible
 
 Le projet intègre et documente l'architecture des solutions de gouvernance d'entreprise suivantes :
-* **Gouvernance & Métadonnées** : [Collibra Data Intelligence Cloud](https://www.collibra.com/)
-* **Gestion de la Vie Privée & Consentement** : [OneTrust](https://www.onetrust.com/)
-* **Catalogue Technique & Métriques** : [Backstage (by Spotify)](https://backstage.spotify.com/) via le contrôle
+* **Gouvernance & métadonnées** : [Collibra Data Intelligence Cloud](https://www.collibra.com/)
+* **Gestion de la vie privée & consentement** : [OneTrust](https://www.onetrust.com/)
+* **Catalogue technique & métriques** : [Backstage (by Spotify)](https://backstage.spotify.com/) via le contrôle
 des fichiers `owner.yaml`
-* **Qualité des Données & Ingestion** : Talend / Apache Spark / BigQuery
+* **Qualité des données & ingestion** : Talend / Apache Spark / BigQuery
 * **Visualisation** : Tableau / Looker (Mise en conformité d'accessibilité RGAA/WCAG)
 
   ---
